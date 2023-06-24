@@ -18,8 +18,19 @@ namespace IgorTime.BurstedFlowField.Editor
         {
             for (var i = 0; i < targetGrid.cellsCount; i++)
             {
+                var t = targetGrid.costField[i] / CellCost.Max;
                 var position = targetGrid.cellPositions[i].X0Y();
-                Handles.Label(position, targetGrid.costField[i].ToString());
+                var style = new GUIStyle()
+                {
+                    fontSize = 20,
+                    alignment = TextAnchor.MiddleCenter,
+                    normal = new GUIStyleState
+                    {
+                        textColor = Color.Lerp(Color.white, Color.red, t)
+                    }
+                };
+                
+                Handles.Label(position, targetGrid.costField[i].ToString(), style);
             }   
         }
 

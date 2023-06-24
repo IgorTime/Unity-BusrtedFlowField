@@ -5,10 +5,10 @@ using UnityEngine;
 public class FlowFieldAuthoring : MonoBehaviour
 {
     public float cellRadius;
-
-    public FlowFieldGrid grid;
     public Vector2Int gridSize;
     public LayerMask obstaclesMask;
+    
+    public FlowFieldGrid grid;
 
     [ContextMenu(nameof(CreateGrid))]
     public void CreateGrid()
