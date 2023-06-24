@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using IgorTime.BurstedFlowField;
 using UnityEngine;
 
 public class FlowFieldAuthoring : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float cellRadius;
+    public Vector2Int gridSize;
+    
+    public FlowFieldGrid grid;
+    
+    [ContextMenu(nameof(CreateGrid))]
+    public void CreateGrid()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        grid = FlowFieldGrid.CreateGrid(gridSize, cellRadius);
     }
 }
