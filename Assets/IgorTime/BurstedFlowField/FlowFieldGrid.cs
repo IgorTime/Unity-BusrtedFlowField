@@ -7,23 +7,26 @@ namespace IgorTime.BurstedFlowField
     [Serializable]
     public struct FlowFieldGrid
     {
+        public int cellsCount;
         public Vector2Int gridSize;
         public float cellRadius;
         public float2[] cellPositions;
+        public byte[] costField;
 
         public static FlowFieldGrid CreateGrid(Vector2Int gridSize, float cellRadius)
         {
             var grid = new FlowFieldGrid
             {
+                cellsCount = gridSize.x * gridSize.y,
                 gridSize = gridSize,
                 cellRadius = cellRadius,
-                cellPositions = CreateCellPositions(gridSize, cellRadius)
+                cellPositions = GetCellPositions(gridSize, cellRadius)
             };
 
             return grid;
         }
 
-        private static float2[] CreateCellPositions(Vector2Int gridSize, float cellRadius)
+        private static float2[] GetCellPositions(Vector2Int gridSize, float cellRadius)
         {
             var result = new float2[gridSize.x * gridSize.y];
 

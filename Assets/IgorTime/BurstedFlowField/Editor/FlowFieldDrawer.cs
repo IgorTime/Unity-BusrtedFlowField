@@ -10,10 +10,20 @@ namespace IgorTime.BurstedFlowField.Editor
         {
             if (target.grid.cellPositions == null) return;
 
-            DrawGrid(target.grid, Color.green);
+            DrawGridCells(target.grid, Color.green);
+            DrawGridCostField(target.grid);
         }
 
-        private static void DrawGrid(in FlowFieldGrid grid, in Color color)
+        private static void DrawGridCostField(in FlowFieldGrid targetGrid)
+        {
+            for (var i = 0; i < targetGrid.cellsCount; i++)
+            {
+                var position = targetGrid.cellPositions[i].X0Y();
+                Handles.Label(position, targetGrid.costField[i].ToString());
+            }   
+        }
+
+        private static void DrawGridCells(in FlowFieldGrid grid, in Color color)
         {
             var previousColor = Gizmos.color;
             Gizmos.color = color;
