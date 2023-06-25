@@ -6,7 +6,7 @@ using UnityEngine;
 public class FlowFieldAuthoring : MonoBehaviour
 {
     public float cellRadius;
-    public Vector2Int gridSize;
+    public int2 gridSize;
     public LayerMask obstaclesMask;
     
     public FlowFieldGrid grid;

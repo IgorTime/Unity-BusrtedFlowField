@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -8,13 +9,13 @@ namespace IgorTime.BurstedFlowField
     public struct FlowFieldGrid
     {
         public int cellsCount;
-        public Vector2Int gridSize;
+        public int2 gridSize;
         public float cellRadius;
         public float2[] cellPositions;
         public byte[] costField;
         public ushort[] integrationField;
 
-        public static FlowFieldGrid CreateGrid(Vector2Int gridSize, float cellRadius)
+        public static FlowFieldGrid CreateGrid(int2 gridSize, float cellRadius)
         {
             var grid = new FlowFieldGrid
             {

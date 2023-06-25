@@ -5,12 +5,12 @@ namespace IgorTime.BurstedFlowField
 {
     public static class GridUtils
     {
-        public static int GetCellIndex(in Vector2Int gridSize, in Vector2Int cellCoordinates)
+        public static int GetCellIndex(in int2 gridSize, in Vector2Int cellCoordinates)
         {
             return GetCellIndex(gridSize, cellCoordinates.x, cellCoordinates.y);
         }
 
-        public static int GetCellIndex(in Vector2Int gridSize, in int x, in int y)
+        public static int GetCellIndex(in int2 gridSize, in int x, in int y)
         {
             return x + y * gridSize.x;
         }
@@ -28,7 +28,7 @@ namespace IgorTime.BurstedFlowField
             };
         }
         
-        public static float2[] GetCellPositions(Vector2Int gridSize, float cellRadius)
+        public static float2[] GetCellPositions(in int2 gridSize, in float cellRadius)
         {
             var result = new float2[gridSize.x * gridSize.y];
 
