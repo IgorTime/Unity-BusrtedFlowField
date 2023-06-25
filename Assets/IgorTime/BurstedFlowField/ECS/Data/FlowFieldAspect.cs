@@ -16,5 +16,11 @@ namespace IgorTime.BurstedFlowField.ECS.Data
         public NativeArray<byte> CostField => costField.ValueRO.value;
         public int2 GridSize => gridData.ValueRO.gridSize;
         public NativeArray<byte> VectorField => vectorField.ValueRW.value;
+        
+        public int2 DestinationCell
+        {
+            get => vectorField.ValueRO.destinationCell;
+            set => vectorField.ValueRW.destinationCell = value;
+        }
     }
 }

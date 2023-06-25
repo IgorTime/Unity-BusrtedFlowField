@@ -1,5 +1,4 @@
-using Unity.Collections;
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Mathematics;
 
 namespace IgorTime.BurstedFlowField.ECS.Data

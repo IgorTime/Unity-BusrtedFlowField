@@ -4,7 +4,6 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
-using UnityEngine;
 
 namespace IgorTime.BurstedFlowField.ECS.Systems
 {
@@ -13,13 +12,16 @@ namespace IgorTime.BurstedFlowField.ECS.Systems
     {
         public void OnUpdate(ref SystemState state)
         {
-            foreach (var flowField in SystemAPI.Query<FlowFieldAspect>())
+            foreach (var (flowField, destinationCell) in SystemAPI.Query<
+                         FlowFieldAspect,
+                         RefRO<DestinationCell>>())
             {
+                var targetCell = destinationCell.ValueRO.cellCoordinates;
+                if (flowField.DestinationCell.Equals(targetCell)) continue;
+                flowField.DestinationCell = targetCell;
+                
                 ResetIntegrationField(flowField);
-
-                var targetCell = GetTargetCell();
-
-                CalculateIntegrationField(targetCell, flowField);
+                CalculateIntegrationField(destinationCell.ValueRO.cellCoordinates, flowField);
                 CalculateVectorField(flowField);
             }
         }
@@ -63,13 +65,6 @@ namespace IgorTime.BurstedFlowField.ECS.Systems
             resetIntegrationFieldJob
                 .Schedule(flowField.IntegrationField.Length, 64)
                 .Complete();
-        }
-
-        private int2 GetTargetCell()
-        {
-            if (Input.GetKey(KeyCode.Alpha1)) return new int2(10, 10);
-
-            return int2.zero;
         }
     }
 }
