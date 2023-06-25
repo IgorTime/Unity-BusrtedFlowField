@@ -10,11 +10,16 @@ using UnityEngine;
 public class FlowFieldAuthoring : MonoBehaviour
 {
     public float cellRadius;
+
+    [NonSerialized] public FlowFieldGrid grid;
+
     public int2 gridSize;
     public LayerMask obstaclesMask;
 
-    [NonSerialized]
-    public FlowFieldGrid grid;
+    public int CellsCount => grid.cellsCount;
+    public int2 GridSize => gridSize;
+    public float2[] CellPositions => grid.cellPositions;
+    public byte[] CostField => grid.costField;
 
     [ContextMenu(nameof(CreateGrid))]
     public void CreateGrid()
