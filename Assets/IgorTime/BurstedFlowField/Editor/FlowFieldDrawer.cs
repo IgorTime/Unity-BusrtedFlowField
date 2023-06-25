@@ -6,6 +6,16 @@ namespace IgorTime.BurstedFlowField.Editor
 {
     public class FlowFieldDrawer
     {
+        private static GUIStyle defaultStyle = new()
+        {
+            fontSize = 20,
+            alignment = TextAnchor.MiddleCenter,
+            normal = new GUIStyleState
+            {
+                textColor = Color.white
+            }
+        };
+        
         [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
         private static void DrawGrid(FlowFieldAuthoring target, GizmoType gizmoType)
         {
@@ -37,7 +47,7 @@ namespace IgorTime.BurstedFlowField.Editor
                 var position = grid.cellPositions[i].X0Y();
                 var direction = grid.GetFlowDirection(i).X0Y().normalized;
                 var halfDirection = direction * 0.5f;
-                ArrowGizmo.Draw(position - halfDirection, direction);
+                ArrowGizmo.Draw(position - halfDirection, direction, Color.red);
             }
         }
 
@@ -46,18 +56,8 @@ namespace IgorTime.BurstedFlowField.Editor
             for (var i = 0; i < targetGrid.cellsCount; i++)
             {
                 var position = targetGrid.cellPositions[i].X0Y();
-                var style = new GUIStyle()
-                {
-                    fontSize = 20,
-                    alignment = TextAnchor.MiddleCenter,
-                    normal = new GUIStyleState
-                    {
-                        textColor = Color.white
-                    }
-                };
-                
                 var coords = GridUtils.GetCellCoordinates(targetGrid.gridSize, i);
-                Handles.Label(position, $"{coords.x}:{coords.y}", style);
+                Handles.Label(position, $"{coords.x}:{coords.y}", defaultStyle);
             }
         }
 
@@ -71,19 +71,8 @@ namespace IgorTime.BurstedFlowField.Editor
             
             for (var i = 0; i < targetGrid.cellsCount; i++)
             {
-                var t = targetGrid.costField[i] / CellCost.Max;
                 var position = targetGrid.cellPositions[i].X0Y();
-                var style = new GUIStyle()
-                {
-                    fontSize = 20,
-                    alignment = TextAnchor.MiddleCenter,
-                    normal = new GUIStyleState
-                    {
-                        textColor = Color.Lerp(Color.white, Color.red, t)
-                    }
-                };
-                
-                Handles.Label(position, targetGrid.integrationField[i].ToString(), style);
+                Handles.Label(position, targetGrid.integrationField[i].ToString(), defaultStyle);
             }   
         }
 

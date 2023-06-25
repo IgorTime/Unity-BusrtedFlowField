@@ -6,7 +6,6 @@ public static class ArrowGizmo
         Vector3 pos,
         Vector3 direction,
         Color? color = null,
-        bool doubled = false,
         float arrowHeadLength = 0.2f,
         float arrowHeadAngle = 20.0f)
     {
@@ -22,7 +21,7 @@ public static class ArrowGizmo
         var left = Quaternion.LookRotation(direction) *
                    Quaternion.Euler(0, 180 - arrowHeadAngle, 0) *
                    Vector3.forward;
-
+        
         Gizmos.DrawRay(pos + direction, right * arrowHeadLength);
         Gizmos.DrawRay(pos + direction, left * arrowHeadLength);
     }
