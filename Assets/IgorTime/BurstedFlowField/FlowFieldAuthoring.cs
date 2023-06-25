@@ -1,3 +1,4 @@
+using System;
 using IgorTime.BurstedFlowField;
 using IgorTime.BurstedFlowField.Jobs;
 using Unity.Collections;
@@ -9,27 +10,18 @@ using UnityEngine;
 public class FlowFieldAuthoring : MonoBehaviour
 {
     public float cellRadius;
-    public FlowFieldGrid grid;
     public int2 gridSize;
     public LayerMask obstaclesMask;
 
-    [Header("Debug")] 
-    public DrawTarget drawTarget;
-    public int2 destinationCell;
-    
+    [NonSerialized]
+    public FlowFieldGrid grid;
+
     [ContextMenu(nameof(CreateGrid))]
     public void CreateGrid()
     {
         grid.Dispose();
         grid = FlowFieldGrid.CreateGrid(gridSize, cellRadius);
         CalculateCostField(ref grid);
-    }
-    
-    [ContextMenu(nameof(CalculateFlowField))]
-    public void CalculateFlowField()
-    {
-        CalculateIntegrationField();
-        CalculateVectorField();
     }
 
     private void CalculateCostField(ref FlowFieldGrid flowFieldGrid)
@@ -49,11 +41,6 @@ public class FlowFieldAuthoring : MonoBehaviour
             flowFieldGrid.costField[i] = hits > 0 ? CellCost.Max : CellCost.Default;
         }
     }
-    
-    public void CalculateIntegrationField()
-    {
-        CalculateIntegrationField(ref grid, destinationCell);
-    }
 
     public void CalculateIntegrationField(ref FlowFieldGrid grid, in int2 destination)
     {
@@ -72,7 +59,7 @@ public class FlowFieldAuthoring : MonoBehaviour
             var cellIntegrationCost = grid.integrationField[currentCell];
 
             grid.GetCardinalNeighbors(currentCell, ref neighbors);
- 
+
             for (var i = 0; i < neighbors.Length; i++)
             {
                 var neighbor = neighbors[i];
@@ -87,7 +74,7 @@ public class FlowFieldAuthoring : MonoBehaviour
             }
         }
     }
-    
+
     public void CalculateVectorField()
     {
         var job = new CalculateVectorFieldJob
@@ -96,7 +83,7 @@ public class FlowFieldAuthoring : MonoBehaviour
             integrationField = grid.integrationField,
             vectorField = grid.vectorField
         };
-        
+
         job.Schedule(grid.cellsCount, 64).Complete();
     }
 
@@ -106,15 +93,7 @@ public class FlowFieldAuthoring : MonoBehaviour
         {
             integrationField = flowFieldGrid.integrationField
         };
-        
+
         job.Schedule(flowFieldGrid.cellsCount, 64).Complete();
     }
-}
-
-public enum DrawTarget
-{
-    CostField,
-    IntegrationField,
-    Coordinates,
-    VectorField
 }
