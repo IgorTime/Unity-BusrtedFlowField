@@ -1,7 +1,5 @@
 ﻿using System;
-using Unity.Collections;
 using Unity.Mathematics;
-using UnityEngine;
 
 namespace IgorTime.BurstedFlowField
 {
@@ -17,12 +15,15 @@ namespace IgorTime.BurstedFlowField
 
         public static FlowFieldGrid CreateGrid(int2 gridSize, float cellRadius)
         {
+            var cellsCount = gridSize.x * gridSize.y;
             var grid = new FlowFieldGrid
             {
-                cellsCount = gridSize.x * gridSize.y,
+                cellsCount = cellsCount,
                 gridSize = gridSize,
                 cellRadius = cellRadius,
-                cellPositions = GridUtils.GetCellPositions(gridSize, cellRadius)
+                cellPositions = GridUtils.GetCellPositions(gridSize, cellRadius),
+                costField = new byte[cellsCount],
+                integrationField = new ushort[cellsCount]
             };
 
             return grid;

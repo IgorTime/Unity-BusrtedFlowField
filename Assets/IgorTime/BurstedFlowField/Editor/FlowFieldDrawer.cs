@@ -11,11 +11,70 @@ namespace IgorTime.BurstedFlowField.Editor
             if (target.grid.cellPositions == null) return;
 
             DrawGridCells(target.grid, Color.green);
-            DrawGridCostField(target.grid);
+
+            switch (target.drawTarget)
+            {
+                case DrawTarget.Coordinates:
+                    DrawGridCoordinates(target.grid);
+                    break;
+                case DrawTarget.CostField:
+                    DrawCostField(target.grid);
+                    break;
+                case DrawTarget.IntegrationField:
+                    DrawIntegrationField(target.grid);
+                    break;
+            }
         }
 
-        private static void DrawGridCostField(in FlowFieldGrid targetGrid)
+        private static void DrawGridCoordinates(in FlowFieldGrid targetGrid)
         {
+            for (var i = 0; i < targetGrid.cellsCount; i++)
+            {
+                var position = targetGrid.cellPositions[i].X0Y();
+                var style = new GUIStyle()
+                {
+                    fontSize = 20,
+                    alignment = TextAnchor.MiddleCenter,
+                    normal = new GUIStyleState
+                    {
+                        textColor = Color.white
+                    }
+                };
+                
+                var coords = GridUtils.GetCellCoordinates(targetGrid.gridSize, i);
+                Handles.Label(position, $"{coords.x}:{coords.y}", style);
+            }
+        }
+
+        private static void DrawIntegrationField(in FlowFieldGrid targetGrid)
+        {
+            if (targetGrid.integrationField == null)
+            {
+                return;
+            }
+            
+            for (var i = 0; i < targetGrid.cellsCount; i++)
+            {
+                var t = targetGrid.costField[i] / CellCost.Max;
+                var position = targetGrid.cellPositions[i].X0Y();
+                var style = new GUIStyle()
+                {
+                    fontSize = 20,
+                    alignment = TextAnchor.MiddleCenter,
+                    normal = new GUIStyleState
+                    {
+                        textColor = Color.Lerp(Color.white, Color.red, t)
+                    }
+                };
+                
+                Handles.Label(position, targetGrid.integrationField[i].ToString(), style);
+            }   
+        }
+
+        private static void DrawCostField(in FlowFieldGrid targetGrid)
+        {
+            if(targetGrid.costField == null) return;
+            
             for (var i = 0; i < targetGrid.cellsCount; i++)
             {
                 var t = targetGrid.costField[i] / CellCost.Max;
