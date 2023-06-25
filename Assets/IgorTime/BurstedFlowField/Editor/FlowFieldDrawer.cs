@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace IgorTime.BurstedFlowField.Editor
@@ -23,6 +24,19 @@ namespace IgorTime.BurstedFlowField.Editor
                 case DrawTarget.IntegrationField:
                     DrawIntegrationField(target.grid);
                     break;
+                case DrawTarget.VectorField:
+                    DrawVectorField(target.grid);
+                    break;
+            }
+        }
+
+        private static void DrawVectorField(in FlowFieldGrid grid)
+        {
+            for (var i = 0; i < grid.cellsCount; i++)
+            {
+                var position = grid.cellPositions[i].X0Y();
+                var direction = grid.GetFlowDirection(i).X0Y();
+                Gizmos.DrawLine(position, position + direction);
             }
         }
 

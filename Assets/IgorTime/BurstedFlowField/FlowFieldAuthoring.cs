@@ -24,6 +24,13 @@ public class FlowFieldAuthoring : MonoBehaviour
         grid = FlowFieldGrid.CreateGrid(gridSize, cellRadius);
         CalculateCostField(ref grid);
     }
+    
+    [ContextMenu(nameof(CalculateFlowField))]
+    public void CalculateFlowField()
+    {
+        CalculateIntegrationField();
+        CalculateVectorField();
+    }
 
     private void CalculateCostField(ref FlowFieldGrid flowFieldGrid)
     {
@@ -42,8 +49,7 @@ public class FlowFieldAuthoring : MonoBehaviour
             flowFieldGrid.costField[i] = hits > 0 ? CellCost.Max : CellCost.Default;
         }
     }
-
-    [ContextMenu(nameof(CalculateIntegrationField))]
+    
     public void CalculateIntegrationField()
     {
         CalculateIntegrationField(ref grid, destinationCell);
@@ -65,7 +71,8 @@ public class FlowFieldAuthoring : MonoBehaviour
             var currentCell = cellQueue.Dequeue();
             var cellIntegrationCost = grid.integrationField[currentCell];
 
-            GridUtils.GetNeighbors(grid.gridSize, currentCell, ref neighbors);
+            grid.GetCardinalNeighbors(currentCell, ref neighbors);
+ 
             for (var i = 0; i < neighbors.Length; i++)
             {
                 var neighbor = neighbors[i];
@@ -79,6 +86,18 @@ public class FlowFieldAuthoring : MonoBehaviour
                 }
             }
         }
+    }
+    
+    public void CalculateVectorField()
+    {
+        var job = new CalculateVectorFieldJob
+        {
+            gridSize = grid.gridSize,
+            integrationField = grid.integrationField,
+            vectorField = grid.vectorField
+        };
+        
+        job.Schedule(grid.cellsCount, 64).Complete();
     }
 
     private void ResetIntegrationFieldParallel(ref FlowFieldGrid flowFieldGrid)
@@ -96,5 +115,6 @@ public enum DrawTarget
 {
     CostField,
     IntegrationField,
-    Coordinates
+    Coordinates,
+    VectorField
 }

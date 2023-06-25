@@ -13,6 +13,7 @@ namespace IgorTime.BurstedFlowField
         public float2[] cellPositions;
         public byte[] costField;
         public NativeArray<ushort> integrationField;
+        public NativeArray<byte> vectorField;
 
         public static FlowFieldGrid CreateGrid(int2 gridSize, float cellRadius)
         {
@@ -24,7 +25,8 @@ namespace IgorTime.BurstedFlowField
                 cellRadius = cellRadius,
                 cellPositions = GridUtils.GetCellPositions(gridSize, cellRadius),
                 costField = new byte[cellsCount],
-                integrationField = new NativeArray<ushort>(cellsCount, Allocator.Persistent)
+                integrationField = new NativeArray<ushort>(cellsCount, Allocator.Persistent),
+                vectorField = new NativeArray<byte>(cellsCount, Allocator.Persistent),
             };
 
             return grid;
@@ -33,6 +35,7 @@ namespace IgorTime.BurstedFlowField
         public void Dispose()
         {
             integrationField.Dispose();
+            vectorField.Dispose();
         }
     }
 }
