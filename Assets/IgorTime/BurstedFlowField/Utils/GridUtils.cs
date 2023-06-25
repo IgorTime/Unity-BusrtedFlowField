@@ -138,24 +138,25 @@ namespace IgorTime.BurstedFlowField
 
         public static int2 GetCellFromWorldPosition(in Vector3 point, in int2 gridSize, in float cellRadius)
         {
-            var gridWith = gridSize.x * cellRadius * 2;
-            var gridHeight = gridSize.y * cellRadius * 2;
-            return new int2()
-            {
-                x = (int)(point.x / gridWith * gridSize.x),
-                y = (int)(point.z / gridHeight * gridSize.y),
-            };
+            var cellDiameter = cellRadius * 2;
+            var gridWith = gridSize.x * cellDiameter;
+            var gridHeight = gridSize.y * cellDiameter;
+            var x = (int)(point.x / gridWith * gridSize.x);
+            var y = (int)(point.z / gridHeight * gridSize.y);
+            return new int2(x, y);
         }
 
         public static Vector3 GetWorldPositionFromCell(
             in float cellRadius, 
             in int2 cellCoordinates)
         {
+            var cellDiameter = cellRadius * 2;
+            var startPosition = cellRadius;
             return new Vector3()
             {
-                x = cellCoordinates.x * cellRadius,
+                x = startPosition + cellCoordinates.x * cellDiameter,
                 y = 0,
-                z = cellCoordinates.y * cellRadius
+                z = startPosition + cellCoordinates.y * cellDiameter
             };
         }
     }

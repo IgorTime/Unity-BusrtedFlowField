@@ -38,6 +38,11 @@ namespace IgorTime.BurstedFlowField.Editor
         [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
         private static void DrawGrid(FlowFieldDebugger target, GizmoType gizmoType)
         {
+            if (!target.enabled)
+            {
+                return;
+            }
+            
             if (target.GridRef.cellPositions == null) return;
 
             if (target.drawCells) DrawGridCells(target.GridRef, Color.green);

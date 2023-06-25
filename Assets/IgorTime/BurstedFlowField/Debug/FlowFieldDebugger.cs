@@ -1,3 +1,4 @@
+using System;
 using IgorTime.BurstedFlowField;
 using UnityEngine;
 
@@ -14,4 +15,9 @@ public class FlowFieldDebugger : MonoBehaviour
         : flowFieldAuthoring = GetComponent<FlowFieldAuthoring>();
 
     public ref FlowFieldGrid GridRef => ref FlowFieldAuthoring.grid;
+
+    public void Start()
+    {
+        
+    }
 }
