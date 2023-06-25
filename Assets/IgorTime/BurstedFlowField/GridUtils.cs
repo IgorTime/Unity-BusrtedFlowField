@@ -27,5 +27,19 @@ namespace IgorTime.BurstedFlowField
                 y = cellY * cellDiameter + cellRadius
             };
         }
+        
+        public static float2[] GetCellPositions(Vector2Int gridSize, float cellRadius)
+        {
+            var result = new float2[gridSize.x * gridSize.y];
+
+            for (var y = 0; y < gridSize.y; y++)
+            for (var x = 0; x < gridSize.x; x++)
+            {
+                var cellIndex = GetCellIndex(gridSize, x, y);
+                result[cellIndex] = GetCellPosition(x, y, cellRadius);
+            }
+
+            return result;
+        }
     }
 }

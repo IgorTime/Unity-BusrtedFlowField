@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using IgorTime.BurstedFlowField;
 using Unity.Mathematics;
 using UnityEngine;
@@ -36,5 +37,11 @@ public class FlowFieldAuthoring : MonoBehaviour
         }
 
         return result;
+    }
+    
+    public void CalculateIntegrationField(ref FlowFieldGrid grid, in Vector2Int destination)
+    {
+        var destinationCellIndex = grid.GetCellIndex(destination);
+        grid.integrationField[destinationCellIndex] = 0;
     }
 }
