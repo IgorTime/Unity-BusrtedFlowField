@@ -32,8 +32,6 @@ namespace IgorTime.BurstedFlowField.ECS.Systems
                     flowField.ValueRO.gridSize,
                     flowField.ValueRO.cellRadius);
                 
-                Debug.Log(hit.point);
-                Debug.Log(coordinates);
                 destinationCell.ValueRW.isSet = true;
                 destinationCell.ValueRW.cellCoordinates = coordinates;
             }
