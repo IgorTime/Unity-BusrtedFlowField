@@ -31,6 +31,8 @@ namespace IgorTime.BurstedFlowField.ECS
             {
                 value = new NativeArray<byte>(authoring.CellsCount, Allocator.Persistent)
             });
+            
+            AddComponent(entity, new DestinationCell());
         }
     }
 }

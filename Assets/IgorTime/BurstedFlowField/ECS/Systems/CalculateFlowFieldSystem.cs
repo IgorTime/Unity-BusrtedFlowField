@@ -1,5 +1,6 @@
 ﻿using IgorTime.BurstedFlowField.ECS.Data;
 using IgorTime.BurstedFlowField.Jobs;
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -7,6 +8,7 @@ using UnityEngine;
 
 namespace IgorTime.BurstedFlowField.ECS.Systems
 {
+    [BurstCompile]
     public partial struct CalculateFlowFieldSystem : ISystem
     {
         public void OnUpdate(ref SystemState state)

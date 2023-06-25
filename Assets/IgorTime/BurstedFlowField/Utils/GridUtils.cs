@@ -3,6 +3,7 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace IgorTime.BurstedFlowField
 {
@@ -133,6 +134,29 @@ namespace IgorTime.BurstedFlowField
         public static bool IsCellInGrid(in int2 gridSize, in int2 cellCoordinates)
         {
             return math.all(cellCoordinates >= 0) && math.all(cellCoordinates < gridSize);
+        }
+
+        public static int2 GetCellFromWorldPosition(in Vector3 point, in int2 gridSize, in float cellRadius)
+        {
+            var gridWith = gridSize.x * cellRadius * 2;
+            var gridHeight = gridSize.y * cellRadius * 2;
+            return new int2()
+            {
+                x = (int)(point.x / gridWith * gridSize.x),
+                y = (int)(point.z / gridHeight * gridSize.y),
+            };
+        }
+
+        public static Vector3 GetWorldPositionFromCell(
+            in float cellRadius, 
+            in int2 cellCoordinates)
+        {
+            return new Vector3()
+            {
+                x = cellCoordinates.x * cellRadius,
+                y = 0,
+                z = cellCoordinates.y * cellRadius
+            };
         }
     }
 }
