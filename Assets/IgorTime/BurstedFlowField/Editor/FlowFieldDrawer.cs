@@ -35,8 +35,9 @@ namespace IgorTime.BurstedFlowField.Editor
             for (var i = 0; i < grid.cellsCount; i++)
             {
                 var position = grid.cellPositions[i].X0Y();
-                var direction = grid.GetFlowDirection(i).X0Y();
-                Gizmos.DrawLine(position, position + direction);
+                var direction = grid.GetFlowDirection(i).X0Y().normalized;
+                var halfDirection = direction * 0.5f;
+                ArrowGizmo.Draw(position - halfDirection, direction);
             }
         }
 
