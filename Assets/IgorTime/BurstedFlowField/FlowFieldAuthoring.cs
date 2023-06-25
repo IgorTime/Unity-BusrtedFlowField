@@ -1,4 +1,3 @@
-using System;
 using IgorTime.BurstedFlowField;
 using IgorTime.BurstedFlowField.Jobs;
 using Unity.Collections;
@@ -10,11 +9,11 @@ using UnityEngine;
 public class FlowFieldAuthoring : MonoBehaviour
 {
     public float cellRadius;
-
-    [NonSerialized] public FlowFieldGrid grid;
-
     public int2 gridSize;
     public LayerMask obstaclesMask;
+
+    public FlowFieldGrid grid;
+
 
     public int CellsCount => grid.cellsCount;
     public int2 GridSize => gridSize;
