@@ -1,6 +1,8 @@
 using IgorTime.BurstedFlowField;
+using IgorTime.BurstedFlowField.Jobs;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
+using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -18,6 +20,7 @@ public class FlowFieldAuthoring : MonoBehaviour
     [ContextMenu(nameof(CreateGrid))]
     public void CreateGrid()
     {
+        grid.Dispose();
         grid = FlowFieldGrid.CreateGrid(gridSize, cellRadius);
         CalculateCostField(ref grid);
     }
@@ -48,7 +51,7 @@ public class FlowFieldAuthoring : MonoBehaviour
 
     public void CalculateIntegrationField(ref FlowFieldGrid grid, in int2 destination)
     {
-        ResetIntegrationField(ref grid);
+        ResetIntegrationFieldParallel(ref grid);
 
         var destinationCellIndex = grid.GetCellIndex(destination);
         grid.integrationField[destinationCellIndex] = 0;
@@ -78,9 +81,14 @@ public class FlowFieldAuthoring : MonoBehaviour
         }
     }
 
-    private void ResetIntegrationField(ref FlowFieldGrid flowFieldGrid)
+    private void ResetIntegrationFieldParallel(ref FlowFieldGrid flowFieldGrid)
     {
-        for (var i = 0; i < flowFieldGrid.cellsCount; i++) flowFieldGrid.integrationField[i] = ushort.MaxValue;
+        var job = new ResetIntegrationFieldJob
+        {
+            integrationField = flowFieldGrid.integrationField
+        };
+        
+        job.Schedule(flowFieldGrid.cellsCount, 64).Complete();
     }
 }
 

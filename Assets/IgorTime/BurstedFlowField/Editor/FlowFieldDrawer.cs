@@ -48,7 +48,8 @@ namespace IgorTime.BurstedFlowField.Editor
 
         private static void DrawIntegrationField(in FlowFieldGrid targetGrid)
         {
-            if (targetGrid.integrationField == null)
+            if (!targetGrid.integrationField.IsCreated || 
+                targetGrid.integrationField.Length == 0)
             {
                 return;
             }
