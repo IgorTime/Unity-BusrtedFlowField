@@ -10,7 +10,7 @@ public class FlowFieldAuthoring : MonoBehaviour
     public LayerMask obstaclesMask;
     [NonSerialized] public FlowFieldGrid? runtimeData;
 
-    public int CellsCount => runtimeData?.cellsCount ?? 0;
+    public int CellsCount => editorData?.cellPositions.Length ?? 0;
     public int2 GridSize => editorData?.gridSize ?? default;
     public byte[] CostField => editorData?.costField ?? Array.Empty<byte>();
     public float CellRadius => editorData?.cellRadius ?? 0f;

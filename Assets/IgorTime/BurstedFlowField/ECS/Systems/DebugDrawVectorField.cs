@@ -27,7 +27,10 @@ namespace IgorTime.BurstedFlowField.ECS.Systems
                     var vectorPacked = vectorField.ValueRO.value[i];
                     var vector = GridDirection.Unpack(vectorPacked).X0Y().normalized;
                     var halfVector = vector * 0.5f;
-                    DebugExtension.DebugArrow(cellPosition - halfVector, vector, Color.magenta);
+                    
+                    
+                    // DebugExtension.DebugArrow(cellPosition - halfVector, vector, Color.magenta);
+                    RuntimeGizmos.DrawArrow(cellPosition - halfVector, vector, Color.magenta);
                 }
             }
         }
