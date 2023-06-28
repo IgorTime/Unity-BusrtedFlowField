@@ -29,7 +29,7 @@ namespace IgorTime.BurstedFlowField.Jobs
                 var currentCell = cellQueue.Dequeue();
                 var cellIntegrationCost = integrationField[currentCell];
 
-                GridUtils.GetCardinalNeighbors(gridSize, targetCellIndex, ref neighbors);
+                GridUtils.GetCardinalNeighbors(gridSize, currentCell, ref neighbors);
 
                 for (var i = 0; i < neighbors.Length; i++)
                 {

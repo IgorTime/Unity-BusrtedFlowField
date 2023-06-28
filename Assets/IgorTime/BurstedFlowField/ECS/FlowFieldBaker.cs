@@ -14,7 +14,7 @@ namespace IgorTime.BurstedFlowField.ECS
             {
                 cellsCount = authoring.CellsCount,
                 gridSize = authoring.GridSize,
-                cellRadius = authoring.cellRadius
+                cellRadius = authoring.CellRadius
             });
 
             AddComponent(entity, new CostFieldData

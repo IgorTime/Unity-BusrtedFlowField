@@ -11,9 +11,8 @@ namespace IgorTime.BurstedFlowField.Editor
         {
             var flowField = (FlowFieldAuthoring)target;
             var root = new VisualElement();
-            root.Add(new PropertyField(serializedObject.FindProperty(nameof(FlowFieldAuthoring.cellRadius))));
-            root.Add(new PropertyField(serializedObject.FindProperty(nameof(FlowFieldAuthoring.gridSize))));
-            root.Add(new PropertyField(serializedObject.FindProperty(nameof(FlowFieldAuthoring.obstaclesMask))));
+            root.Add(new PropertyField(serializedObject.FindProperty("editorData.cellRadius")));
+            root.Add(new PropertyField(serializedObject.FindProperty("editorData.gridSize")));
             root.Add(new Button(flowField.CreateGrid) { text = "Create Grid" });
             return root;
         }
