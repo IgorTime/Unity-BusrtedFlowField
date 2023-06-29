@@ -25,7 +25,7 @@ namespace IgorTime.BurstedFlowField.ECS.Systems
                         cellCoords);
                     
                     var vectorPacked = vectorField.ValueRO.value[i];
-                    var vector = GridDirection.Unpack(vectorPacked).X0Y().normalized;
+                    var vector = GridDirection.Unpack(vectorPacked).X0Y_Vector3().normalized;
                     var halfVector = vector * 0.5f;
                     
                     

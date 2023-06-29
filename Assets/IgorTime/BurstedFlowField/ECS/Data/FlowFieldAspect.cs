@@ -6,8 +6,6 @@ namespace IgorTime.BurstedFlowField.ECS.Data
 {
     public readonly partial struct FlowFieldAspect : IAspect
     {
-        public readonly Entity Self;
-
         private readonly RefRO<FlowFieldData> gridData;
         private readonly RefRO<CostFieldData> costField;
         private readonly RefRW<IntegrationFieldData> integrationField;

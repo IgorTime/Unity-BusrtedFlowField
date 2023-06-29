@@ -81,8 +81,8 @@ namespace IgorTime.BurstedFlowField.Editor
 
             for (var i = 0; i < cellPositions.Length; i++)
             {
-                var position = cellPositions[i].X0Y();
-                var direction = GridDirection.Unpack(vectorField[i]).X0Y().normalized;
+                var position = cellPositions[i].X0Y_Vector3();
+                var direction = GridDirection.Unpack(vectorField[i]).X0Y_Vector3().normalized;
                 var halfDirection = direction * 0.5f;
                 ArrowGizmo.Draw(position - halfDirection, direction, Color.red);
             }
@@ -92,7 +92,7 @@ namespace IgorTime.BurstedFlowField.Editor
         {
             for (var i = 0; i < cellPositions.Length; i++)
             {
-                var position = cellPositions[i].X0Y();
+                var position = cellPositions[i].X0Y_Vector3();
                 var coords = GridUtils.GetCellCoordinates(gridSize, i);
                 Handles.Label(position, $"{coords.x}:{coords.y}", DefaultStyle);
             }
@@ -108,7 +108,7 @@ namespace IgorTime.BurstedFlowField.Editor
 
             for (var i = 0; i < cellPositions.Length; i++)
             {
-                var position = cellPositions[i].X0Y();
+                var position = cellPositions[i].X0Y_Vector3();
                 Handles.Label(position, integrationField[i].ToString(), DefaultStyle);
             }
         }
@@ -120,7 +120,7 @@ namespace IgorTime.BurstedFlowField.Editor
             for (var i = 0; i < cellPositions.Length; i++)
             {
                 var t = costField[i] / CellCost.Max;
-                var position = cellPositions[i].X0Y();
+                var position = cellPositions[i].X0Y_Vector3();
 
                 var style = costField[i] == CellCost.Max
                     ? RedStyle
@@ -139,7 +139,7 @@ namespace IgorTime.BurstedFlowField.Editor
             var cellSize = cellRadius * 2 * Vector3.one;
             for (var i = 0; i < cellPositions.Length; i++)
             {
-                var cellPosition = cellPositions[i].X0Y();
+                var cellPosition = cellPositions[i].X0Y_Vector3();
                 Gizmos.DrawWireCube(cellPosition, cellSize);
             }
 

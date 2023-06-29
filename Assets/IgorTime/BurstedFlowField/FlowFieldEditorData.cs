@@ -28,7 +28,7 @@ namespace IgorTime.BurstedFlowField
             {
                 var cellPosition = cellPositions[i];
                 var hits = Physics.OverlapBoxNonAlloc(
-                    cellPosition.X0Y(),
+                    cellPosition.X0Y_Vector3(),
                     halfExtends,
                     collidersBuffer,
                     quaternion.identity,

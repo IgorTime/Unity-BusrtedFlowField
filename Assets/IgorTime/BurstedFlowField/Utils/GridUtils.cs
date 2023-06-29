@@ -136,7 +136,10 @@ namespace IgorTime.BurstedFlowField
             return math.all(cellCoordinates >= 0) && math.all(cellCoordinates < gridSize);
         }
 
-        public static int2 GetCellFromWorldPosition(in Vector3 point, in int2 gridSize, in float cellRadius)
+        public static int2 GetCellFromWorldPosition(
+            in Vector3 point, 
+            in int2 gridSize, 
+            in float cellRadius)
         {
             var cellDiameter = cellRadius * 2;
             var gridWith = gridSize.x * cellDiameter;
@@ -144,6 +147,28 @@ namespace IgorTime.BurstedFlowField
             var x = (int)(point.x / gridWith * gridSize.x);
             var y = (int)(point.z / gridHeight * gridSize.y);
             return new int2(x, y);
+        }
+        
+        public static int2 GetCellFromWorldPosition(
+            in float3 point, 
+            in int2 gridSize, 
+            in float cellRadius)
+        {
+            var cellDiameter = cellRadius * 2;
+            var gridWith = gridSize.x * cellDiameter;
+            var gridHeight = gridSize.y * cellDiameter;
+            var x = (int)(point.x / gridWith * gridSize.x);
+            var y = (int)(point.z / gridHeight * gridSize.y);
+            return new int2(x, y);
+        }
+        
+        public static int GetCellIndexFromWorldPosition(
+            in float3 point, 
+            in int2 gridSize, 
+            in float cellRadius)
+        {
+            var cellCoordinates = GetCellFromWorldPosition(point, gridSize, cellRadius);
+            return GetCellIndex(gridSize, cellCoordinates);
         }
 
         public static Vector3 GetWorldPositionFromCell(
