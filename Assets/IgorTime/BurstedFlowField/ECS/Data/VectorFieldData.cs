@@ -7,6 +7,7 @@ namespace IgorTime.BurstedFlowField.ECS.Data
     [ChunkSerializable]
     public struct VectorFieldData : IComponentData
     {
+        public bool isSet;
         public int2 destinationCell;
         public NativeArray<byte> value;
     }

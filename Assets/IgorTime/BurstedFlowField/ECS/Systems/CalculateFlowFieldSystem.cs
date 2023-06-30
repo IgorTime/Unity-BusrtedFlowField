@@ -24,6 +24,8 @@ namespace IgorTime.BurstedFlowField.ECS.Systems
                     flowField.IntegrationField,
                     flowField.VectorField)
                     .Complete();
+                
+                flowField.IsSet = true;
             }
         }
     }

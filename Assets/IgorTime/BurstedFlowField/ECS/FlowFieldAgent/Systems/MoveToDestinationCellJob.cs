@@ -19,11 +19,12 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             var position = agentAspect.Position;
             var cellIndex = grid.GetCellIndexFromWorldPosition(position);
             var moveVector = GridDirection.Unpack(vectorField[cellIndex]);
-            var moveDirection = math.normalize(moveVector);
+            var moveDirection = moveVector.Equals(int2.zero)
+                ? int2.zero
+                : math.normalize(moveVector);
 
-            ref var agentPosition = ref agentAspect.Position;
             var translation = (agentAspect.Speed * dt * moveDirection).X0Y_Float3();
-            agentPosition += translation;
+            agentAspect.Position += translation;
         }
     }
 }
