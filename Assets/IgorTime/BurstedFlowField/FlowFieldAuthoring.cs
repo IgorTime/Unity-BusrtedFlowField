@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class FlowFieldAuthoring : MonoBehaviour
 {
-    [SerializeField] public FlowFieldEditorData editorData = new();
+    public FlowFieldEditorData editorData = new();
     public LayerMask obstaclesMask;
+    
     [NonSerialized] public FlowFieldGrid? runtimeData;
 
     public int CellsCount => editorData?.cellPositions.Length ?? 0;
