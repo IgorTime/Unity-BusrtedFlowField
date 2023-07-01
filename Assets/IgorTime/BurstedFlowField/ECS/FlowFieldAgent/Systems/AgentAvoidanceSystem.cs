@@ -1,7 +1,6 @@
 ﻿using IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Aspects;
 using Unity.Burst;
 using Unity.Collections;
-using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
 using Unity.Mathematics;
 
@@ -41,13 +40,11 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
 
             j1.ScheduleParallel();
 
-            // var j2 = new CalculateAvoidanceVectorJob
-            // {
-            //     cellSize = 5,
-            //     agentsPerCell = agentsPerCell
-            // };
-
-            // agentsPerCell.Dispose();
+            var j2 = new CalculateAvoidanceVectorJob
+            {
+                cellSize = 5,
+                agentsPerCell = agentsPerCell
+            };
         }
 
         public static int GetHashForPosition(in float3 position, in int cellSize)
@@ -67,7 +64,7 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
     public partial struct CalculateAvoidanceVectorJob : IJobEntity
     {
         public int cellSize;
-        [ReadOnly] public UnsafeParallelMultiHashMap<int, FlowFieldAgentAspect> agentsPerCell;
+        [ReadOnly] public NativeParallelMultiHashMap<int, FlowFieldAgentAspect> agentsPerCell;
 
         public void Execute(FlowFieldAgentAspect agentAspect)
         {
