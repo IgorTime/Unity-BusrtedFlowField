@@ -1,4 +1,5 @@
 ﻿using Unity.Entities;
+using Unity.Mathematics;
 
 namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent
 {
@@ -6,5 +7,7 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent
     {
         public float radius;
         public float avoidanceRadius;
+        public int avoidanceCounter;
+        public float3 avoidanceVector;
     }
 }

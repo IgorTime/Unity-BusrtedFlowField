@@ -12,7 +12,7 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
     {
         public int cellSize;
         // [WriteOnly] public NativeParallelMultiHashMap<int, FlowFieldAgentAspect> agentsPerCell;
-        [WriteOnly] public NativeParallelMultiHashMap<int, FlowFieldAgentAspect>.ParallelWriter hashMapWriter;
+        [WriteOnly] public NativeParallelMultiHashMap<int, float3>.ParallelWriter hashMapWriter;
 
         public void Execute(FlowFieldAgentAspect agentAspect)
         {
@@ -30,7 +30,7 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
 
             foreach (var cellHash in hashSet)
             {
-                hashMapWriter.Add(cellHash, agentAspect);
+                hashMapWriter.Add(cellHash, position);
             }
         }
     }

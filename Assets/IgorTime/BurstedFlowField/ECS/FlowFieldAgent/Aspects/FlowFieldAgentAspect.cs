@@ -9,8 +9,8 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Aspects
         public readonly Entity Self;
     
         private readonly RefRO<Speed> speed;
-        private readonly RefRO<FlowFieldAgent> flowFieldTag;
-        public readonly RefRW<LocalTransform> transform;
+        private readonly RefRW<FlowFieldAgent> flowFieldAgent;
+        private readonly RefRW<LocalTransform> transform;
 
         public float3 Position
         {
@@ -19,7 +19,18 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Aspects
         }
 
         public float Speed => speed.ValueRO.value;
-        public float Radius => flowFieldTag.ValueRO.radius;
-        public float AvoidanceRadius => flowFieldTag.ValueRO.avoidanceRadius;
+        public float Radius => flowFieldAgent.ValueRO.radius;
+        public float AvoidanceRadius => flowFieldAgent.ValueRO.avoidanceRadius;
+        public float3 AvoidanceVector
+        {
+            get => flowFieldAgent.ValueRO.avoidanceVector;
+            set => flowFieldAgent.ValueRW.avoidanceVector = value;
+        }
+        
+        public int AvoidanceCounter
+        {
+            get => flowFieldAgent.ValueRO.avoidanceCounter;
+            set => flowFieldAgent.ValueRW.avoidanceCounter = value;
+        }
     }
 }
