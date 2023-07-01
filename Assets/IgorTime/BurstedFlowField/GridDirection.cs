@@ -37,6 +37,19 @@ namespace IgorTime.BurstedFlowField
             SouthWest
         };
 
+        public static readonly float2[] AllMoveDirections =
+        {
+            new (0, 0),
+            math.normalize(North),
+            math.normalize(East),
+            math.normalize(West),
+            math.normalize(South),
+            math.normalize(NorthEast),
+            math.normalize(NorthWest),
+            math.normalize(SouthEast),
+            math.normalize(SouthWest)
+        };
+
         public static readonly int2[] CardinalDirections =
         {
             North,
@@ -56,6 +69,11 @@ namespace IgorTime.BurstedFlowField
         public static int2 Unpack(in byte packedDirection)
         {
             return AllDirections[packedDirection];
+        }
+        
+        public static float2 UnpackAsMoveDirection(in byte packedDirection)
+        {
+            return AllMoveDirections[packedDirection];
         }
 
         public static byte PackDirection(in int2 direction)
