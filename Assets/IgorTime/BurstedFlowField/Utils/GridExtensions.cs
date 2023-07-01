@@ -1,4 +1,5 @@
-﻿using Unity.Collections.LowLevel.Unsafe;
+﻿using IgorTime.BurstedFlowField.ECS.Data;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Mathematics;
 
 namespace IgorTime.BurstedFlowField
@@ -40,5 +41,8 @@ namespace IgorTime.BurstedFlowField
         {
             return GridDirection.Unpack(grid.vectorField[cellIndex]);
         }
+        
+        public static float GridWidth(this in FlowFieldData grid) => grid.gridSize.x * grid.cellRadius * 2;
+        public static float GridHeight(this in FlowFieldData grid) => grid.gridSize.y * grid.cellRadius * 2;
     }
 }

@@ -12,8 +12,12 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent
             {
                 value = authoring.speed
             });
-            
-            AddComponent<FlowFieldAgentTag>(entity);
+
+            AddComponent(entity, new FlowFieldAgent
+            {
+                radius = authoring.agentRadius,
+                avoidanceRadius = authoring.avoidanceRadius
+            });
         }
     }
 }
