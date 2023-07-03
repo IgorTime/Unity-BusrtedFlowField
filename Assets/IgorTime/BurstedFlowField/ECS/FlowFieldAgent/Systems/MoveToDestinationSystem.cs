@@ -15,6 +15,7 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
         {
             state.RequireForUpdate<FlowFieldData>();
             state.RequireForUpdate<VectorFieldData>();
+            state.RequireForUpdate<DestinationCell>();
         }
 
         public void OnUpdate(ref SystemState state)
@@ -26,8 +27,14 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             }
 
             var gridData = SystemAPI.GetSingleton<FlowFieldData>();
+            var destinationCellData = SystemAPI.GetSingleton<DestinationCell>();
+            var destinationPosition = GridUtilsBursted.GetWorldPositionFromCell(
+                gridData.cellRadius,
+                destinationCellData.cellCoordinates);
+            
             var j2 = new MoveToDestinationCellJob
             {
+                destinationPosition = destinationPosition,
                 dt = SystemAPI.Time.DeltaTime,
                 grid = gridData,
                 vectorField = vectorField.value,

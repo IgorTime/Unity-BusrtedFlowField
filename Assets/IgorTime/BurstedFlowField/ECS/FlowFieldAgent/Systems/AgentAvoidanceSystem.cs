@@ -12,6 +12,8 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
     [UpdateAfter(typeof(CalculateFlowFieldSystem))]
     public partial struct AgentAvoidanceSystem : ISystem
     {
+        public const float ARRIVAL_DISTANCE = 0.2f;
+        
         private NativeParallelMultiHashMap<int, float3> agentsPerCell;
         private EntityQuery agentsQuery;
 

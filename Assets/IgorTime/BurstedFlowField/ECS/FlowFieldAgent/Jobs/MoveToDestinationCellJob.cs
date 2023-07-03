@@ -13,6 +13,7 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
     {
         public float dt;
         public FlowFieldData grid;
+        public float3 destinationPosition;
 
         [ReadOnly]
         public NativeArray<byte> vectorField;
@@ -32,6 +33,13 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
                 translation = math.lerp(translation, avoidanceTranslation, avoidancePower);
             }
 
+            var distanceToDestination = math.distancesq(destinationPosition, position);
+            if(distanceToDestination < AgentAvoidanceSystem.ARRIVAL_DISTANCE)
+            {
+                agentAspect.Position = destinationPosition;
+                return;
+            }
+            
             agentAspect.Position += translation;
         }
     }
