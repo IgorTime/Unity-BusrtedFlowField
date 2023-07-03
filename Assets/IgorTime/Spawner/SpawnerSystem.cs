@@ -10,6 +10,11 @@ namespace IgorTime
 {
     public partial struct SpawnerSystem : ISystem
     {
+        public void OnCreate(ref SystemState state)
+        {
+            state.RequireForUpdate<FlowFieldData>();
+        }
+
         public void OnUpdate(ref SystemState state)
         {
             if (!Input.GetKeyDown(KeyCode.Space))
