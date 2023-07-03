@@ -5,6 +5,7 @@ using Unity.Entities;
 namespace IgorTime.BurstedFlowField.ECS.Systems
 {
     [BurstCompile]
+    [UpdateInGroup(typeof(SimulationSystemGroup))]
     [UpdateAfter(typeof(SetDestinationCellOnMouseClick))]
     public partial struct CalculateFlowFieldSystem : ISystem
     {

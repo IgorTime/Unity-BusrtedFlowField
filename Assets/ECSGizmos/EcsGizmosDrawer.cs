@@ -8,6 +8,8 @@ namespace IgorTime.BurstedFlowField.ECS
     {
         private static EcsGizmosDrawer instance;
         private readonly List<ArrowGizmoData> arrowGizmos = new();
+        private readonly List<BoxGizmoData> cubeGizmos = new();
+        private readonly List<BoxGizmoData> wireCubeGizmos = new();
         private readonly List<Action> gizmoActions = new();
 
         private static EcsGizmosDrawer Instance
@@ -35,16 +37,36 @@ namespace IgorTime.BurstedFlowField.ECS
             in float arrowHeadLength = 0.2f,
             in float arrowHeadAngle = 20f)
         {
-            Instance.arrowGizmos.Add(new ArrowGizmoData
-            {
-                Position = pos,
-                Direction = direction,
-                Color = color ?? Color.white,
-                ArrowHeadLength = arrowHeadLength,
-                ArrowHeadAngle = arrowHeadAngle,
-            });
+            Instance.arrowGizmos.Add(new ArrowGizmoData(
+                pos,
+                direction,
+                color ?? Color.white,
+                arrowHeadLength,
+                arrowHeadAngle));
         }
-        
+
+        public static void DrawCube(
+            in Vector3 pos,
+            in Vector3 size,
+            in Color? color = null)
+        {
+            Instance.cubeGizmos.Add(new BoxGizmoData(
+                pos,
+                size,
+                color ?? Color.green));
+        }
+
+        public static void DrawWireCube(
+            in Vector3 pos,
+            in Vector3 size,
+            in Color? color = null)
+        {
+            Instance.wireCubeGizmos.Add(new BoxGizmoData(
+                pos,
+                size,
+                color ?? Color.green));
+        }
+
         public static void DrawAction(Action action)
         {
             instance.gizmoActions.Add(action);
@@ -53,7 +75,37 @@ namespace IgorTime.BurstedFlowField.ECS
         private void OnDrawGizmos()
         {
             DrawAllArrows();
+            DrawAllCubes();
+            DrawAllWireCubes();
             DrawActions();
+        }
+
+        private void DrawAllCubes()
+        {
+            var count = cubeGizmos.Count;
+            for (var i = 0; i < count; i++)
+            {
+                Gizmos.color = cubeGizmos[i].Color;
+                Gizmos.DrawCube(
+                    cubeGizmos[i].Position,
+                    cubeGizmos[i].Size);
+            }
+            
+            cubeGizmos.Clear();
+        }
+
+        private void DrawAllWireCubes()
+        {
+            var count = wireCubeGizmos.Count;
+            for (var i = 0; i < count; i++)
+            {
+                Gizmos.color = wireCubeGizmos[i].Color;
+                Gizmos.DrawWireCube(
+                    wireCubeGizmos[i].Position,
+                    wireCubeGizmos[i].Size);
+            }
+            
+            wireCubeGizmos.Clear();
         }
 
         private void DrawActions()

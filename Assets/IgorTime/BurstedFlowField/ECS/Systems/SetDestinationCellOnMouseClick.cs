@@ -6,20 +6,21 @@ using UnityEngine;
 namespace IgorTime.BurstedFlowField.ECS.Systems
 {
     [BurstCompile]
-    public partial struct SetDestinationCellOnMouseClick : ISystem
+    [UpdateInGroup(typeof(SimulationSystemGroup))]
+    public partial class SetDestinationCellOnMouseClick : SystemBase
     {
         private int layerMask;
         private Camera camera;
 
-        public void OnCreate(ref SystemState state)
+        protected override void OnCreate()
         {
-            state.RequireForUpdate<DestinationCell>();
-            state.RequireForUpdate<FlowFieldData>();
+            RequireForUpdate<DestinationCell>();
+            RequireForUpdate<FlowFieldData>();
             layerMask = LayerMask.GetMask("Ground");
             camera = Camera.main;
         }
 
-        public void OnUpdate(ref SystemState state)
+        protected override void OnUpdate()
         {
             if (!Input.GetMouseButtonDown(0))
             {

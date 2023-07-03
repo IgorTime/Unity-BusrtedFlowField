@@ -30,13 +30,7 @@ namespace IgorTime.BurstedFlowField.ECS.Systems
                 flowFieldData.cellRadius,
                 cellCoordinates);
 
-            var bounds = new Bounds
-            {
-                center = cellWorldPosition,
-                size = Vector3.one * flowFieldData.cellRadius * 2,
-            };
-
-            DebugExtension.DebugBounds(bounds, Color.red);
+            EcsGizmosDrawer.DrawCube(cellWorldPosition, Vector3.one * flowFieldData.cellRadius * 2);
         }
     }
 }
