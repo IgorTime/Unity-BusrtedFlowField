@@ -3,11 +3,11 @@
 public static class ArrowGizmo
 {
     public static void Draw(
-        Vector3 pos,
-        Vector3 direction,
-        Color? color = null,
-        float arrowHeadLength = 0.2f,
-        float arrowHeadAngle = 20.0f)
+        in Vector3 pos,
+        in Vector3 direction,
+        in Color? color = null,
+        in float arrowHeadLength = 0.2f,
+        in float arrowHeadAngle = 20.0f)
     {
         Gizmos.color = color ?? Color.white;
         Gizmos.DrawRay(pos, direction);

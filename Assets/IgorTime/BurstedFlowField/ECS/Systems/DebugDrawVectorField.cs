@@ -6,35 +6,35 @@ using UnityEngine;
 namespace IgorTime.BurstedFlowField.ECS.Systems
 {
     [BurstCompile]
+    [UpdateInGroup(typeof(DrawDebugGizmosSystemGroup))]
     public partial struct DebugDrawVectorField : ISystem
     {
         public void OnCreate(ref SystemState state)
         {
-            state.Enabled = false;
+            state.RequireForUpdate<VectorFieldData>();
+            state.RequireForUpdate<FlowFieldData>();
         }
 
         public void OnUpdate(ref SystemState state)
         {
-            foreach (var (vectorField, flowField) in SystemAPI.Query<
-                         RefRO<VectorFieldData>,
-                         RefRO<FlowFieldData>>())
+            var flowField = SystemAPI.GetSingleton<FlowFieldData>();
+            var vectorField = SystemAPI.GetSingleton<VectorFieldData>();
+
+            for (var i = 0; i < flowField.cellsCount; i++)
             {
-                for (var i = 0; i < flowField.ValueRO.cellsCount; i++)
-                {
-                    var cellCoords = GridUtils.GetCellCoordinates(
-                        flowField.ValueRO.gridSize,
-                        i);
+                var cellCoords = GridUtils.GetCellCoordinates(
+                    flowField.gridSize,
+                    i);
 
-                    var cellPosition = GridUtils.GetWorldPositionFromCell(
-                        flowField.ValueRO.cellRadius,
-                        cellCoords);
+                var cellPosition = GridUtils.GetWorldPositionFromCell(
+                    flowField.cellRadius,
+                    cellCoords);
 
-                    var vectorPacked = vectorField.ValueRO.value[i];
-                    var vector = GridDirection.Unpack(vectorPacked).X0Y_Vector3().normalized;
-                    var halfVector = vector * 0.5f;
+                var vectorPacked = vectorField.value[i];
+                var vector = GridDirection.UnpackAsMoveDirection(vectorPacked).X0Y_Vector3();
+                var halfVector = vector * 0.5f;
 
-                    RuntimeGizmos.DrawArrow(cellPosition - halfVector, vector, Color.magenta);
-                }
+                EcsGizmosDrawer.DrawArrow(cellPosition - halfVector, vector, Color.magenta);
             }
         }
     }

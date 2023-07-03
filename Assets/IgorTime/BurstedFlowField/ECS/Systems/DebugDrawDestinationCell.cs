@@ -6,32 +6,37 @@ using UnityEngine;
 namespace IgorTime.BurstedFlowField.ECS.Systems
 {
     [BurstCompile]
+    [UpdateInGroup(typeof(DrawDebugGizmosSystemGroup))]
     public partial struct DebugDrawDestinationCell : ISystem
     {
+        public void OnCreate(ref SystemState state)
+        {
+            state.RequireForUpdate<FlowFieldData>();
+            state.RequireForUpdate<DestinationCell>();
+        }
+
         public void OnUpdate(ref SystemState state)
         {
-            foreach (var (destinationCell, flowFieldData) in SystemAPI.Query<
-                         RefRO<DestinationCell>,
-                         RefRO<FlowFieldData>>())
+            var destinationCell = SystemAPI.GetSingleton<DestinationCell>();
+            var flowFieldData = SystemAPI.GetSingleton<FlowFieldData>();
+
+            if (!destinationCell.isSet)
             {
-                if (!destinationCell.ValueRO.isSet)
-                {
-                    continue;
-                }
-
-                var cellCoordinates = destinationCell.ValueRO.cellCoordinates;
-                var cellWorldPosition = GridUtils.GetWorldPositionFromCell(
-                    flowFieldData.ValueRO.cellRadius,
-                    cellCoordinates);
-
-                var bounds = new Bounds
-                {
-                    center = cellWorldPosition,
-                    size = Vector3.one * flowFieldData.ValueRO.cellRadius * 2,
-                };
-
-                DebugExtension.DebugBounds(bounds, Color.red);
+                return;
             }
+
+            var cellCoordinates = destinationCell.cellCoordinates;
+            var cellWorldPosition = GridUtils.GetWorldPositionFromCell(
+                flowFieldData.cellRadius,
+                cellCoordinates);
+
+            var bounds = new Bounds
+            {
+                center = cellWorldPosition,
+                size = Vector3.one * flowFieldData.cellRadius * 2,
+            };
+
+            DebugExtension.DebugBounds(bounds, Color.red);
         }
     }
 }
