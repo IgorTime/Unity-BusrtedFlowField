@@ -8,6 +8,11 @@ namespace IgorTime.BurstedFlowField.ECS.Systems
     [BurstCompile]
     public partial struct DebugDrawVectorField : ISystem
     {
+        public void OnCreate(ref SystemState state)
+        {
+            state.Enabled = false;
+        }
+        
         public void OnUpdate(ref SystemState state)
         {
             foreach (var (vectorField, flowField) in SystemAPI.Query<
@@ -27,9 +32,7 @@ namespace IgorTime.BurstedFlowField.ECS.Systems
                     var vectorPacked = vectorField.ValueRO.value[i];
                     var vector = GridDirection.Unpack(vectorPacked).X0Y_Vector3().normalized;
                     var halfVector = vector * 0.5f;
-                    
-                    
-                    // DebugExtension.DebugArrow(cellPosition - halfVector, vector, Color.magenta);
+
                     RuntimeGizmos.DrawArrow(cellPosition - halfVector, vector, Color.magenta);
                 }
             }
