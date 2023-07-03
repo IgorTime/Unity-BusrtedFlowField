@@ -14,16 +14,6 @@ namespace IgorTime.BurstedFlowField
         public static readonly int2 SouthEast = new(1, -1);
         public static readonly int2 SouthWest = new(-1, -1);
 
-        private static readonly byte NonePacked = 0;
-        private static readonly byte NorthPacked = 1;
-        private static readonly byte EastPacked = 2;
-        private static readonly byte WestPacked = 3;
-        private static readonly byte SouthPacked = 4;
-        private static readonly byte NorthEastPacked = 5;
-        private static readonly byte NorthWestPacked = 6;
-        private static readonly byte SouthEastPacked = 7;
-        private static readonly byte SouthWestPacked = 8;
-
         public static readonly int2[] AllDirections =
         {
             None,
@@ -34,8 +24,34 @@ namespace IgorTime.BurstedFlowField
             NorthEast,
             NorthWest,
             SouthEast,
-            SouthWest
+            SouthWest,
         };
+
+        public static readonly int2[] CardinalDirections =
+        {
+            North,
+            East,
+            West,
+            South,
+        };
+
+        public static readonly int2[] DiagonalDirections =
+        {
+            NorthEast,
+            NorthWest,
+            SouthEast,
+            SouthWest,
+        };
+
+        private static readonly byte NonePacked = 0;
+        private static readonly byte NorthPacked = 1;
+        private static readonly byte EastPacked = 2;
+        private static readonly byte WestPacked = 3;
+        private static readonly byte SouthPacked = 4;
+        private static readonly byte NorthEastPacked = 5;
+        private static readonly byte NorthWestPacked = 6;
+        private static readonly byte SouthEastPacked = 7;
+        private static readonly byte SouthWestPacked = 8;
 
         private static readonly float2 NoneMoveDirection = float2.zero;
         private static readonly float2 NorthMoveDirection = math.normalize(North);
@@ -46,22 +62,6 @@ namespace IgorTime.BurstedFlowField
         private static readonly float2 NorthWestMoveDirection = math.normalize(NorthWest);
         private static readonly float2 SouthEastMoveDirection = math.normalize(SouthEast);
         private static readonly float2 SouthWestMoveDirection = math.normalize(SouthWest);
-
-        public static readonly int2[] CardinalDirections =
-        {
-            North,
-            East,
-            West,
-            South
-        };
-
-        public static readonly int2[] DiagonalDirections =
-        {
-            NorthEast,
-            NorthWest,
-            SouthEast,
-            SouthWest
-        };
 
         public static int2 Unpack(in byte packedDirection)
         {
@@ -99,15 +99,51 @@ namespace IgorTime.BurstedFlowField
 
         public static byte PackDirection(in int2 direction)
         {
-            if (direction.Equals(None)) return NonePacked;
-            if (direction.Equals(North)) return NorthPacked;
-            if (direction.Equals(East)) return EastPacked;
-            if (direction.Equals(West)) return WestPacked;
-            if (direction.Equals(South)) return SouthPacked;
-            if (direction.Equals(NorthEast)) return NorthEastPacked;
-            if (direction.Equals(NorthWest)) return NorthWestPacked;
-            if (direction.Equals(SouthEast)) return SouthEastPacked;
-            if (direction.Equals(SouthWest)) return SouthWestPacked;
+            if (direction.Equals(None))
+            {
+                return NonePacked;
+            }
+
+            if (direction.Equals(North))
+            {
+                return NorthPacked;
+            }
+
+            if (direction.Equals(East))
+            {
+                return EastPacked;
+            }
+
+            if (direction.Equals(West))
+            {
+                return WestPacked;
+            }
+
+            if (direction.Equals(South))
+            {
+                return SouthPacked;
+            }
+
+            if (direction.Equals(NorthEast))
+            {
+                return NorthEastPacked;
+            }
+
+            if (direction.Equals(NorthWest))
+            {
+                return NorthWestPacked;
+            }
+
+            if (direction.Equals(SouthEast))
+            {
+                return SouthEastPacked;
+            }
+
+            if (direction.Equals(SouthWest))
+            {
+                return SouthWestPacked;
+            }
+
             return 0;
         }
     }

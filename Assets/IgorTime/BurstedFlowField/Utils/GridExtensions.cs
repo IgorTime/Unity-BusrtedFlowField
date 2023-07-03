@@ -6,10 +6,8 @@ namespace IgorTime.BurstedFlowField
 {
     public static class GridExtensions
     {
-        public static int GetCellIndex(in this FlowFieldGrid grid, in int2 cellCoordinates)
-        {
-            return GridUtils.GetCellIndex(grid.gridSize, cellCoordinates.x, cellCoordinates.y);
-        }
+        public static int GetCellIndex(in this FlowFieldGrid grid, in int2 cellCoordinates) =>
+            GridUtils.GetCellIndex(grid.gridSize, cellCoordinates.x, cellCoordinates.y);
 
         public static void GetCardinalNeighbors(
             in this FlowFieldGrid grid,
@@ -37,11 +35,9 @@ namespace IgorTime.BurstedFlowField
 
         public static int2 GetFlowDirection(
             in this FlowFieldGrid grid,
-            in int cellIndex)
-        {
-            return GridDirection.Unpack(grid.vectorField[cellIndex]);
-        }
-        
+            in int cellIndex) =>
+            GridDirection.Unpack(grid.vectorField[cellIndex]);
+
         public static float GridWidth(this in FlowFieldData grid) => grid.gridSize.x * grid.cellRadius * 2;
         public static float GridHeight(this in FlowFieldData grid) => grid.gridSize.y * grid.cellRadius * 2;
     }

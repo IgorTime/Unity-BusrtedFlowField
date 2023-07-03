@@ -9,10 +9,15 @@ namespace IgorTime.BurstedFlowField.Jobs
     [BurstCompile]
     public struct CalculateIntegrationFieldJob : IJob
     {
-        [ReadOnly] public int2 targetCell;
-        [ReadOnly] public int2 gridSize;
+        [ReadOnly]
+        public int2 targetCell;
 
-        [ReadOnly] public NativeArray<byte> costField;
+        [ReadOnly]
+        public int2 gridSize;
+
+        [ReadOnly]
+        public NativeArray<byte> costField;
+
         public NativeArray<ushort> integrationField;
 
         public void Execute()
@@ -35,11 +40,14 @@ namespace IgorTime.BurstedFlowField.Jobs
                 {
                     var neighbor = neighbors[i];
                     var neighborCost = costField[neighbor];
-                    if (neighborCost >= CellCost.Max) continue;
+                    if (neighborCost >= CellCost.Max)
+                    {
+                        continue;
+                    }
 
                     if (neighborCost + cellIntegrationCost < integrationField[neighbor])
                     {
-                        integrationField[neighbor] = (ushort)(neighborCost + cellIntegrationCost);
+                        integrationField[neighbor] = (ushort) (neighborCost + cellIntegrationCost);
                         cellQueue.Enqueue(neighbor);
                     }
                 }

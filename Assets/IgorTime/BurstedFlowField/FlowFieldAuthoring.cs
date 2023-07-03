@@ -8,19 +8,22 @@ public class FlowFieldAuthoring : MonoBehaviour
 {
     public FlowFieldEditorData editorData = new();
     public LayerMask obstaclesMask;
-    
-    [NonSerialized] public FlowFieldGrid? runtimeData;
+
+    [NonSerialized]
+    public FlowFieldGrid? runtimeData;
 
     public int CellsCount => editorData?.cellPositions.Length ?? 0;
     public int2 GridSize => editorData?.gridSize ?? default;
     public byte[] CostField => editorData?.costField ?? Array.Empty<byte>();
     public float CellRadius => editorData?.cellRadius ?? 0f;
 
-
     [ContextMenu(nameof(CreateGrid))]
     public void CreateGrid()
     {
-        if (runtimeData.HasValue) runtimeData.Value.Dispose();
+        if (runtimeData.HasValue)
+        {
+            runtimeData.Value.Dispose();
+        }
 
         editorData.CalculateCellPositions();
         editorData.CalculateCostField(obstaclesMask);
@@ -37,7 +40,7 @@ public class FlowFieldAuthoring : MonoBehaviour
             gridSize = editorData.gridSize,
             costField = new NativeArray<byte>(editorData.costField, Allocator.Persistent),
             integrationField = new NativeArray<ushort>(editorData.costField.Length, Allocator.Persistent),
-            vectorField = new NativeArray<byte>(editorData.costField.Length, Allocator.Persistent)
+            vectorField = new NativeArray<byte>(editorData.costField.Length, Allocator.Persistent),
         };
     }
 }

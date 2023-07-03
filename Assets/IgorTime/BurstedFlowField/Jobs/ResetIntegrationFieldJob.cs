@@ -7,7 +7,7 @@ namespace IgorTime.BurstedFlowField.Jobs
     [BurstCompile]
     public struct ResetIntegrationFieldJob : IJobParallelFor
     {
-        [WriteOnly] 
+        [WriteOnly]
         public NativeArray<ushort> integrationField;
 
         public void Execute(int index)

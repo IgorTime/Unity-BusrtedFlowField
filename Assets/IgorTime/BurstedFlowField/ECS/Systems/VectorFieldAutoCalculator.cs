@@ -8,15 +8,12 @@ namespace IgorTime.BurstedFlowField.ECS.Systems
         public void OnUpdate(ref SystemState state)
         {
             foreach (var (destinationCell, vectorField) in SystemAPI.Query<
-                         RefRO<DestinationCell>, 
+                         RefRO<DestinationCell>,
                          RefRW<VectorFieldData>>())
             {
-                if(vectorField.ValueRO.destinationCell.Equals(destinationCell.ValueRO.cellCoordinates))
+                if (vectorField.ValueRO.destinationCell.Equals(destinationCell.ValueRO.cellCoordinates))
                 {
-                    continue;
                 }
-                
-                
             }
         }
     }

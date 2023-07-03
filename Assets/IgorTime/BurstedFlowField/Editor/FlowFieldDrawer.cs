@@ -13,8 +13,8 @@ namespace IgorTime.BurstedFlowField.Editor
             alignment = TextAnchor.MiddleCenter,
             normal = new GUIStyleState
             {
-                textColor = Color.white
-            }
+                textColor = Color.white,
+            },
         };
 
         private static readonly GUIStyle RedStyle = new()
@@ -23,8 +23,8 @@ namespace IgorTime.BurstedFlowField.Editor
             alignment = TextAnchor.MiddleCenter,
             normal = new GUIStyleState
             {
-                textColor = Color.red
-            }
+                textColor = Color.red,
+            },
         };
 
         private static readonly GUIStyle YellowStyle = new()
@@ -33,20 +33,25 @@ namespace IgorTime.BurstedFlowField.Editor
             alignment = TextAnchor.MiddleCenter,
             normal = new GUIStyleState
             {
-                textColor = Color.yellow
-            }
+                textColor = Color.yellow,
+            },
         };
 
         [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
         private static void DrawGrid(FlowFieldDebugger target, GizmoType gizmoType)
         {
-            if (!target.enabled) return;
+            if (!target.enabled)
+            {
+                return;
+            }
 
             if (target.drawCells)
+            {
                 DrawGridCells(
                     target.EditorData.cellPositions,
                     target.EditorData.cellRadius,
                     Color.green);
+            }
 
             switch (target.drawTarget)
             {
@@ -54,30 +59,45 @@ namespace IgorTime.BurstedFlowField.Editor
                     DrawGridCoordinates(
                         target.EditorData.cellPositions,
                         target.EditorData.gridSize);
+
                     break;
                 case DrawTarget.CostField:
                     DrawCostField(
                         target.EditorData.cellPositions,
                         target.EditorData.costField);
+
                     break;
                 case DrawTarget.IntegrationField:
-                    if (!target.RuntimeData.HasValue) return;
+                    if (!target.RuntimeData.HasValue)
+                    {
+                        return;
+                    }
+
                     DrawIntegrationField(
                         target.EditorData.cellPositions,
                         target.RuntimeData.Value.integrationField);
+
                     break;
                 case DrawTarget.VectorField:
-                    if (!target.RuntimeData.HasValue) return;
+                    if (!target.RuntimeData.HasValue)
+                    {
+                        return;
+                    }
+
                     DrawVectorField(
                         target.EditorData.cellPositions,
                         target.RuntimeData.Value.vectorField);
+
                     break;
             }
         }
 
         private static void DrawVectorField(float2[] cellPositions, NativeArray<byte> vectorField)
         {
-            if (!vectorField.IsCreated || vectorField.Length == 0) return;
+            if (!vectorField.IsCreated || vectorField.Length == 0)
+            {
+                return;
+            }
 
             for (var i = 0; i < cellPositions.Length; i++)
             {
@@ -104,7 +124,9 @@ namespace IgorTime.BurstedFlowField.Editor
         {
             if (!integrationField.IsCreated ||
                 integrationField.Length == 0)
+            {
                 return;
+            }
 
             for (var i = 0; i < cellPositions.Length; i++)
             {
@@ -115,7 +137,10 @@ namespace IgorTime.BurstedFlowField.Editor
 
         private static void DrawCostField(float2[] cellPositions, byte[] costField)
         {
-            if (costField == null) return;
+            if (costField == null)
+            {
+                return;
+            }
 
             for (var i = 0; i < cellPositions.Length; i++)
             {

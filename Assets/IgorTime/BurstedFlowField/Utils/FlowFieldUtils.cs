@@ -7,7 +7,8 @@ namespace IgorTime.BurstedFlowField
 {
     public static class FlowFieldUtils
     {
-        public static void CalculateFlowFieldDebug(in int2 gridSize,
+        public static void CalculateFlowFieldDebug(
+            in int2 gridSize,
             in int2 destinationCell,
             [ReadOnly] NativeArray<byte> costField,
             NativeArray<ushort> integrationField,
@@ -20,7 +21,7 @@ namespace IgorTime.BurstedFlowField
                 integrationField,
                 vectorField,
                 out var j1,
-                out var j2, 
+                out var j2,
                 out var j3);
 
             var cellsCount = costField.Length;
@@ -43,12 +44,12 @@ namespace IgorTime.BurstedFlowField
                 integrationField,
                 vectorField,
                 out var j1,
-                out var j2, 
+                out var j2,
                 out var j3);
 
             j1 = new ResetIntegrationFieldJob
             {
-                integrationField = integrationField
+                integrationField = integrationField,
             };
 
             j2 = new CalculateIntegrationFieldJob
@@ -56,16 +57,16 @@ namespace IgorTime.BurstedFlowField
                 targetCell = destinationCell,
                 gridSize = gridSize,
                 costField = costField,
-                integrationField = integrationField
+                integrationField = integrationField,
             };
 
             j3 = new CalculateVectorFieldJob
             {
                 gridSize = gridSize,
                 integrationField = integrationField,
-                vectorField = vectorField
+                vectorField = vectorField,
             };
-            
+
             var cellsCount = costField.Length;
             var h1 = j1.Schedule(cellsCount, 64);
             var h2 = j2.Schedule(h1);
@@ -85,7 +86,7 @@ namespace IgorTime.BurstedFlowField
         {
             j1 = new ResetIntegrationFieldJob
             {
-                integrationField = integrationField
+                integrationField = integrationField,
             };
 
             j2 = new CalculateIntegrationFieldJob
@@ -93,14 +94,14 @@ namespace IgorTime.BurstedFlowField
                 targetCell = destinationCell,
                 gridSize = gridSize,
                 costField = costField,
-                integrationField = integrationField
+                integrationField = integrationField,
             };
 
             j3 = new CalculateVectorFieldJob
             {
                 gridSize = gridSize,
                 integrationField = integrationField,
-                vectorField = vectorField
+                vectorField = vectorField,
             };
         }
     }

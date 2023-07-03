@@ -14,24 +14,24 @@ namespace IgorTime.BurstedFlowField.ECS
             {
                 cellsCount = authoring.CellsCount,
                 gridSize = authoring.GridSize,
-                cellRadius = authoring.CellRadius
+                cellRadius = authoring.CellRadius,
             });
 
             AddComponent(entity, new CostFieldData
             {
-                value = new NativeArray<byte>(authoring.CostField, Allocator.Persistent)
+                value = new NativeArray<byte>(authoring.CostField, Allocator.Persistent),
             });
 
             AddComponent(entity, new IntegrationFieldData
             {
-                value = new NativeArray<ushort>(authoring.CellsCount, Allocator.Persistent)
+                value = new NativeArray<ushort>(authoring.CellsCount, Allocator.Persistent),
             });
 
             AddComponent(entity, new VectorFieldData
             {
-                value = new NativeArray<byte>(authoring.CellsCount, Allocator.Persistent)
+                value = new NativeArray<byte>(authoring.CellsCount, Allocator.Persistent),
             });
-            
+
             AddComponent(entity, new DestinationCell());
         }
     }

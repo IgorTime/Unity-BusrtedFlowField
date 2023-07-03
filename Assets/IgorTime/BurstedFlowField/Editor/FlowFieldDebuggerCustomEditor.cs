@@ -9,13 +9,13 @@ namespace IgorTime.BurstedFlowField.Editor
     {
         public override VisualElement CreateInspectorGUI()
         {
-            var flowField = (FlowFieldDebugger)target;
+            var flowField = (FlowFieldDebugger) target;
             var root = new VisualElement();
             root.Add(new PropertyField(serializedObject.FindProperty("drawCells")));
             root.Add(new PropertyField(serializedObject.FindProperty("drawTarget")));
-            
+
             root.Add(new PropertyField(serializedObject.FindProperty("targetCell")));
-            root.Add(new Button(flowField.CalculateVectorField) { text = "Calculate Vector Field" });
+            root.Add(new Button(flowField.CalculateVectorField) {text = "Calculate Vector Field"});
             return root;
         }
     }

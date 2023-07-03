@@ -12,7 +12,10 @@ namespace IgorTime
     {
         public void OnUpdate(ref SystemState state)
         {
-            if (!Input.GetKeyDown(KeyCode.Space)) return;
+            if (!Input.GetKeyDown(KeyCode.Space))
+            {
+                return;
+            }
 
             var spawned = false;
             var flowField = SystemAPI.GetSingleton<FlowFieldData>();
@@ -33,7 +36,10 @@ namespace IgorTime
                 }
             }
 
-            if (spawned) state.Enabled = false;
+            if (spawned)
+            {
+                state.Enabled = false;
+            }
         }
     }
 }

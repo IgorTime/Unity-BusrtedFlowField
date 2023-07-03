@@ -12,23 +12,23 @@ namespace IgorTime.BurstedFlowField.ECS.Systems
         {
             state.Enabled = false;
         }
-        
+
         public void OnUpdate(ref SystemState state)
         {
             foreach (var (vectorField, flowField) in SystemAPI.Query<
-                         RefRO<VectorFieldData>, 
+                         RefRO<VectorFieldData>,
                          RefRO<FlowFieldData>>())
             {
                 for (var i = 0; i < flowField.ValueRO.cellsCount; i++)
                 {
                     var cellCoords = GridUtils.GetCellCoordinates(
-                        flowField.ValueRO.gridSize, 
+                        flowField.ValueRO.gridSize,
                         i);
 
                     var cellPosition = GridUtils.GetWorldPositionFromCell(
                         flowField.ValueRO.cellRadius,
                         cellCoords);
-                    
+
                     var vectorPacked = vectorField.ValueRO.value[i];
                     var vector = GridDirection.Unpack(vectorPacked).X0Y_Vector3().normalized;
                     var halfVector = vector * 0.5f;

@@ -14,17 +14,21 @@ namespace IgorTime.BurstedFlowField.ECS.Systems
                          RefRO<DestinationCell>>())
             {
                 var targetCell = destinationCell.ValueRO.cellCoordinates;
-                if (flowField.DestinationCell.Equals(targetCell)) continue;
+                if (flowField.DestinationCell.Equals(targetCell))
+                {
+                    continue;
+                }
+
                 flowField.DestinationCell = targetCell;
 
                 FlowFieldUtils.CalculateFlowField(
-                    flowField.GridSize,
-                    flowField.DestinationCell,
-                    flowField.CostField,
-                    flowField.IntegrationField,
-                    flowField.VectorField)
-                    .Complete();
-                
+                                   flowField.GridSize,
+                                   flowField.DestinationCell,
+                                   flowField.CostField,
+                                   flowField.IntegrationField,
+                                   flowField.VectorField)
+                              .Complete();
+
                 flowField.IsSet = true;
             }
         }

@@ -12,7 +12,10 @@ public static class ArrowGizmo
         Gizmos.color = color ?? Color.white;
         Gizmos.DrawRay(pos, direction);
 
-        if (direction == Vector3.zero) return;
+        if (direction == Vector3.zero)
+        {
+            return;
+        }
 
         var right = Quaternion.LookRotation(direction) *
                     Quaternion.Euler(0, 180 + arrowHeadAngle, 0) *
@@ -21,7 +24,7 @@ public static class ArrowGizmo
         var left = Quaternion.LookRotation(direction) *
                    Quaternion.Euler(0, 180 - arrowHeadAngle, 0) *
                    Vector3.forward;
-        
+
         Gizmos.DrawRay(pos + direction, right * arrowHeadLength);
         Gizmos.DrawRay(pos + direction, left * arrowHeadLength);
     }

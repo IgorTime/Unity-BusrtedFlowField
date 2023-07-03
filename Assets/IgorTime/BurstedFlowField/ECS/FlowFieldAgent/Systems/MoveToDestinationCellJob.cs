@@ -13,7 +13,9 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
     {
         public float dt;
         public FlowFieldData grid;
-        [ReadOnly] public NativeArray<byte> vectorField;
+
+        [ReadOnly]
+        public NativeArray<byte> vectorField;
 
         public void Execute(FlowFieldAgentAspect agentAspect)
         {
@@ -22,14 +24,14 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             var moveVector = GridDirection.UnpackAsMoveDirection(vectorField[cellIndex]);
             var frameSpeed = agentAspect.Speed * dt;
             var translation = (frameSpeed * moveVector).X0Y_Float3();
-            
-            if(agentAspect.AvoidanceCounter > 0)
+
+            if (agentAspect.AvoidanceCounter > 0)
             {
                 var avoidancePower = 1 - math.length(agentAspect.AvoidanceVector) / agentAspect.AvoidanceRadius;
                 var avoidanceTranslation = math.normalize(agentAspect.AvoidanceVector) * frameSpeed;
                 translation = math.lerp(translation, avoidanceTranslation, avoidancePower);
             }
-            
+
             agentAspect.Position += translation;
         }
     }

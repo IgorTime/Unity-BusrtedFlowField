@@ -14,9 +14,9 @@ namespace IgorTime.BurstedFlowField.ECS.Systems
             {
                 return;
             }
-            
+
             foreach (var (destinationCell, flowField) in SystemAPI.Query<
-                         RefRW<DestinationCell>, 
+                         RefRW<DestinationCell>,
                          RefRO<FlowFieldData>>())
             {
                 var mousePos = Input.mousePosition;
@@ -31,7 +31,7 @@ namespace IgorTime.BurstedFlowField.ECS.Systems
                     hit.point,
                     flowField.ValueRO.gridSize,
                     flowField.ValueRO.cellRadius);
-                
+
                 destinationCell.ValueRW.isSet = true;
                 destinationCell.ValueRW.cellCoordinates = coordinates;
             }

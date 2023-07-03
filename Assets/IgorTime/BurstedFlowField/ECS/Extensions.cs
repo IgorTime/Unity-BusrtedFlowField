@@ -8,24 +8,20 @@ namespace IgorTime.BurstedFlowField.ECS
     {
         [BurstCompile]
         public static int2 GetCellFromWorldPosition(
-            this in FlowFieldData ffData, 
-            in float3 position)
-        {
-            return GridUtils.GetCellFromWorldPosition(
+            this in FlowFieldData ffData,
+            in float3 position) =>
+            GridUtils.GetCellFromWorldPosition(
                 position,
                 ffData.gridSize,
                 ffData.cellRadius);
-        }
-        
+
         [BurstCompile]
         public static int GetCellIndexFromWorldPosition(
-            this in FlowFieldData ffData, 
-            in float3 position)
-        {
-            return GridUtils.GetCellIndexFromWorldPosition(
+            this in FlowFieldData ffData,
+            in float3 position) =>
+            GridUtils.GetCellIndexFromWorldPosition(
                 position,
                 ffData.gridSize,
                 ffData.cellRadius);
-        }
     }
 }

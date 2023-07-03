@@ -3,5 +3,5 @@
     CostField,
     IntegrationField,
     Coordinates,
-    VectorField
+    VectorField,
 }

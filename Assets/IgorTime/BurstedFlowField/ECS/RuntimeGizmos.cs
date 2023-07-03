@@ -13,9 +13,15 @@ namespace IgorTime.BurstedFlowField.ECS
         {
             get
             {
-                if (instance == null) instance = FindObjectOfType<RuntimeGizmos>();
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<RuntimeGizmos>();
+                }
 
-                if (instance == null) instance = new GameObject("RuntimeGizmosManager").AddComponent<RuntimeGizmos>();
+                if (instance == null)
+                {
+                    instance = new GameObject("RuntimeGizmosManager").AddComponent<RuntimeGizmos>();
+                }
 
                 return instance;
             }
@@ -36,7 +42,10 @@ namespace IgorTime.BurstedFlowField.ECS
 
         private void OnDrawGizmos()
         {
-            foreach (var action in gizmoActions) action?.Invoke();
+            foreach (var action in gizmoActions)
+            {
+                action?.Invoke();
+            }
 
             gizmoActions.Clear();
         }

@@ -12,14 +12,17 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
         public void OnUpdate(ref SystemState state)
         {
             var vectorField = SystemAPI.GetSingleton<VectorFieldData>();
-            if (!vectorField.isSet) return;
+            if (!vectorField.isSet)
+            {
+                return;
+            }
 
             var gridData = SystemAPI.GetSingleton<FlowFieldData>();
             var j2 = new MoveToDestinationCellJob
             {
                 dt = SystemAPI.Time.DeltaTime,
                 grid = gridData,
-                vectorField = vectorField.value
+                vectorField = vectorField.value,
             };
 
             j2.ScheduleParallel();
