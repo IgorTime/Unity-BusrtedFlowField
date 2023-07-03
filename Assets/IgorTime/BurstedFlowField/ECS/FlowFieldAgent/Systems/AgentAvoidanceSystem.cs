@@ -1,4 +1,5 @@
 ﻿using IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Aspects;
+using IgorTime.BurstedFlowField.ECS.Systems;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -7,6 +8,8 @@ using Unity.Mathematics;
 namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
 {
     [BurstCompile]
+    [UpdateInGroup(typeof(FlowFieldSystemGroup))]
+    [UpdateAfter(typeof(CalculateFlowFieldSystem))]
     public partial struct AgentAvoidanceSystem : ISystem
     {
         private NativeParallelMultiHashMap<int, float3> agentsPerCell;
@@ -35,16 +38,16 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
                 agentsPerCell.Capacity = entitiesCount * 4;
             }
 
-            const int avoidanceGridCellSize = 2;
+            const int AVOIDANCE_GRID_CELL_SIZE = 2;
             new SplitAgentsIntoCellsJob
             {
-                cellSize = avoidanceGridCellSize,
+                cellSize = AVOIDANCE_GRID_CELL_SIZE,
                 hashMapWriter = agentsPerCell.AsParallelWriter(),
             }.ScheduleParallel();
 
             new CalculateClosestAvoidanceVectorJob
             {
-                cellSize = avoidanceGridCellSize,
+                cellSize = AVOIDANCE_GRID_CELL_SIZE,
                 agentsPerCell = agentsPerCell,
             }.ScheduleParallel();
         }

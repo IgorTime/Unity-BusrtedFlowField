@@ -6,7 +6,7 @@ using UnityEngine;
 namespace IgorTime.BurstedFlowField.ECS.Systems
 {
     [BurstCompile]
-    [UpdateInGroup(typeof(SimulationSystemGroup))]
+    [UpdateInGroup(typeof(FlowFieldSystemGroup))]
     public partial class SetDestinationCellOnMouseClick : SystemBase
     {
         private int layerMask;

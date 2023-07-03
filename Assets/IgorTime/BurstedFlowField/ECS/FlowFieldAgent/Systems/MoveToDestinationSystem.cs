@@ -1,4 +1,5 @@
 ﻿using IgorTime.BurstedFlowField.ECS.Data;
+using IgorTime.BurstedFlowField.ECS.Systems;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Transforms;
@@ -6,9 +7,16 @@ using Unity.Transforms;
 namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
 {
     [BurstCompile]
-    [UpdateAfter(typeof(TransformSystemGroup))]
+    [UpdateAfter(typeof(AgentAvoidanceSystem))]
+    [UpdateInGroup(typeof(FlowFieldSystemGroup))]
     public partial struct MoveToDestinationSystem : ISystem
     {
+        public void OnCreate(ref SystemState state)
+        {
+            state.RequireForUpdate<FlowFieldData>();
+            state.RequireForUpdate<VectorFieldData>();
+        }
+
         public void OnUpdate(ref SystemState state)
         {
             var vectorField = SystemAPI.GetSingleton<VectorFieldData>();
