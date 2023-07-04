@@ -23,5 +23,12 @@ namespace IgorTime.BurstedFlowField.ECS
                 position,
                 ffData.gridSize,
                 ffData.cellRadius);
+
+        [BurstCompile]
+        public static bool IsValidCell(
+            this in FlowFieldData ffData,
+            in int cellIndex) =>
+            cellIndex >= 0 && 
+            cellIndex < ffData.gridSize.x * ffData.gridSize.y;
     }
 }

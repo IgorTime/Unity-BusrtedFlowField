@@ -14,6 +14,7 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
         public void OnCreate(ref SystemState state)
         {
             state.RequireForUpdate<FlowFieldData>();
+            state.RequireForUpdate<CostFieldData>();
             state.RequireForUpdate<VectorFieldData>();
             state.RequireForUpdate<DestinationCell>();
         }
@@ -27,6 +28,7 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             }
 
             var gridData = SystemAPI.GetSingleton<FlowFieldData>();
+            var costField = SystemAPI.GetSingleton<CostFieldData>();
             var destinationCellData = SystemAPI.GetSingleton<DestinationCell>();
             var destinationPosition = GridUtilsBursted.GetWorldPositionFromCell(
                 gridData.cellRadius,
@@ -38,6 +40,7 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
                 dt = SystemAPI.Time.DeltaTime,
                 grid = gridData,
                 vectorField = vectorField.value,
+                costField = costField.value,
             };
 
             j2.ScheduleParallel();

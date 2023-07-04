@@ -17,30 +17,48 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
 
         [ReadOnly]
         public NativeArray<byte> vectorField;
+        
+        [ReadOnly]
+        public NativeArray<byte> costField;
 
         public void Execute(FlowFieldAgentAspect agentAspect)
         {
             var position = agentAspect.Position;
-            var cellIndex = grid.GetCellIndexFromWorldPosition(position);
-            var moveVector = GridDirection.UnpackAsMoveDirection(vectorField[cellIndex]);
-            var frameSpeed = agentAspect.Speed * dt;
-            var translation = (frameSpeed * moveVector).X0Y_Float3();
-
-            if (agentAspect.AvoidanceCounter > 0)
-            {
-                var avoidancePower = 1 - math.length(agentAspect.AvoidanceVector) / agentAspect.AvoidanceRadius;
-                var avoidanceTranslation = math.normalize(agentAspect.AvoidanceVector) * frameSpeed;
-                translation = math.lerp(translation, avoidanceTranslation, avoidancePower);
-            }
-
             var distanceToDestination = math.distancesq(destinationPosition, position);
             if(distanceToDestination < AgentAvoidanceSystem.ARRIVAL_DISTANCE)
             {
-                agentAspect.Position = destinationPosition;
                 return;
             }
             
-            agentAspect.Position += translation;
+            var cellIndex = grid.GetCellIndexFromWorldPosition(position);
+            var moveVector = GridDirection.UnpackAsMoveDirection(vectorField[cellIndex]);
+            var frameSpeed = agentAspect.Speed * dt;
+            var desiredVelocity = (frameSpeed * moveVector).X0Y_Float3();
+
+
+            if (agentAspect.AvoidanceCounter > 0)
+            {
+                // var avoidancePower = 1 - math.length(agentAspect.AvoidanceVector) / agentAspect.AvoidanceRadius;
+                // var avoidanceTranslation = math.normalize(agentAspect.AvoidanceVector) * frameSpeed;
+                // desiredVelocity = math.lerp(desiredVelocity, avoidanceTranslation, avoidancePower);
+                
+                desiredVelocity += agentAspect.AvoidanceVector * frameSpeed;
+                desiredVelocity /=2;
+            }
+
+            var newPosition = position + desiredVelocity;
+            var newCellIndex = grid.GetCellIndexFromWorldPosition(newPosition);
+            if(!grid.IsValidCell(newCellIndex))
+            {
+                return;
+            }
+            
+            if (costField[newCellIndex] == CellCost.Max)
+            {
+                return;
+            }
+            
+            agentAspect.Position += desiredVelocity;
         }
     }
 }

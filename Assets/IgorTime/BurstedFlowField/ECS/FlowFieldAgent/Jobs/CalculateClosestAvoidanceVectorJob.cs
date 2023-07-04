@@ -38,7 +38,7 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             while (agentsPerCell.TryGetNextValue(out neighborPosition, ref iterator));
 
             agentAspect.AvoidanceCounter = 1;
-            agentAspect.AvoidanceVector = myPosition - closestPosition;
+            agentAspect.AvoidanceVector = math.normalize(myPosition - closestPosition);
         }
 
         private static void UpdateClosestDistance(
