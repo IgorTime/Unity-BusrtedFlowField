@@ -27,15 +27,19 @@ namespace IgorTime.BurstedFlowField.Debug
             var agentsPerCell = avoidanceGrid.agentsPerCell;
             var (result, uniques) = agentsPerCell.GetUniqueKeyArray(Allocator.Temp);
 
-            for (int i = 0; i < uniques; i++)
+            for (var i = 0; i < uniques; i++)
             {
-                var key = result[i];
-                foreach (var value in agentsPerCell.GetValuesForKey(key))
+                var cellIndex = result[i];
+                var rowOffset = cellIndex / AvoidanceGrid.X_SIZE % 2 + 1;
+                var finalColor = (cellIndex + rowOffset) % 2 == 0
+                    ? Color.red
+                    : Color.blue;
+
+                foreach (var value in agentsPerCell.GetValuesForKey(cellIndex))
                 {
-                    var finalColor = key % 2 == 0 ? Color.red : Color.blue;
                     EcsGizmosDrawer.DrawCube(
-                        value, 
-                        Vector3.one * 0.5f * 0.5f, 
+                        value,
+                        Vector3.one * 0.5f * 0.5f,
                         finalColor
                     );
                 }
