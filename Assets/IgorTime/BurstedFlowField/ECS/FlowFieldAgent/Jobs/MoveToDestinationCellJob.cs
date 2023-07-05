@@ -29,21 +29,17 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             {
                 return;
             }
-            
-            var cellIndex = grid.GetCellIndexFromWorldPosition(position);
-            var moveVector = GridDirection.UnpackAsMoveDirection(vectorField[cellIndex]);
-            var frameSpeed = agentAspect.Speed * dt;
-            var desiredVelocity = (frameSpeed * moveVector).X0Y_Float3();
 
-
+            float3 desiredVelocity;
             if (agentAspect.AvoidanceCounter > 0)
             {
-                // var avoidancePower = 1 - math.length(agentAspect.AvoidanceVector) / agentAspect.AvoidanceRadius;
-                // var avoidanceTranslation = math.normalize(agentAspect.AvoidanceVector) * frameSpeed;
-                // desiredVelocity = math.lerp(desiredVelocity, avoidanceTranslation, avoidancePower);
-    
-                desiredVelocity += agentAspect.AvoidanceVector * frameSpeed;
-                desiredVelocity /=2;
+                desiredVelocity = agentAspect.AvoidanceVector.ClampLength(agentAspect.Speed);
+            }
+            else
+            {
+                var cellIndex = grid.GetCellIndexFromWorldPosition(position);
+                var moveVector = GridDirection.UnpackAsMoveDirection(vectorField[cellIndex]);
+                desiredVelocity = (moveVector * agentAspect.Speed).X0Y_Float3();
             }
 
             var newPosition = position + desiredVelocity;
@@ -63,7 +59,7 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             //     return;
             // }
             
-            agentAspect.Position += desiredVelocity;
+            agentAspect.Position += desiredVelocity * dt;
         }
     }
 }
