@@ -19,7 +19,7 @@ namespace IgorTime.BurstedFlowField.Debug
         protected override void OnUpdate()
         {
             var systemHandle = World.GetExistingSystem<AgentAvoidanceSystem>();
-            var system = World.Unmanaged.GetUnsafeSystemRef<AgentAvoidanceSystem>(systemHandle);
+            ref var system = ref World.Unmanaged.GetUnsafeSystemRef<AgentAvoidanceSystem>(systemHandle);
 
             system.SplitAgentsHandle.Complete();
 
@@ -38,7 +38,7 @@ namespace IgorTime.BurstedFlowField.Debug
                 foreach (var value in agentsPerCell.GetValuesForKey(cellIndex))
                 {
                     EcsGizmosDrawer.DrawCube(
-                        value,
+                        value.Position,
                         Vector3.one * 0.5f * 0.5f,
                         finalColor
                     );

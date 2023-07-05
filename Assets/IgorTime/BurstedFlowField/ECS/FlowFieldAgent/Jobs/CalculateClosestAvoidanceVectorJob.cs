@@ -12,13 +12,13 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
         public int cellSize;
 
         [ReadOnly]
-        public NativeParallelMultiHashMap<int, float3> agentsPerCell;
+        public NativeParallelMultiHashMap<int, AvoidanceAgentData> agentsPerCell;
 
         public void Execute(FlowFieldAgentAspect agentAspect)
         {
             agentAspect.AvoidanceCounter = 0;
             var cellKey = AgentAvoidanceSystem.GetHashForPosition(agentAspect.Position.xz, cellSize);
-            if (!agentsPerCell.TryGetFirstValue(cellKey, out var neighborPosition, out var iterator))
+            if (!agentsPerCell.TryGetFirstValue(cellKey, out var neighborData, out var iterator))
             {
                 return;
             }
@@ -28,14 +28,19 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             var closestPosition = float3.zero;
             do
             {
+                if(agentAspect.Self == neighborData.AgentEntity)
+                {
+                    continue;
+                }
+                
                 UpdateClosestDistance(
                     math.pow(agentAspect.AvoidanceRadius, 2),
                     ref closestDistance,
                     ref closestPosition,
                     myPosition,
-                    neighborPosition);
+                    neighborData.Position);
             }
-            while (agentsPerCell.TryGetNextValue(out neighborPosition, ref iterator));
+            while (agentsPerCell.TryGetNextValue(out neighborData, ref iterator));
 
             agentAspect.AvoidanceCounter = 1;
             agentAspect.AvoidanceVector = math.normalize(myPosition - closestPosition);

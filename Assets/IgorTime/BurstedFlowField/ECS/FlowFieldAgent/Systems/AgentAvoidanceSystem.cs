@@ -26,7 +26,7 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             var singleton = state.EntityManager.CreateSingleton<AvoidanceGrid>();
             state.EntityManager.SetComponentData(singleton, new AvoidanceGrid()
             {
-                agentsPerCell = new NativeParallelMultiHashMap<int, float3>(100, Allocator.Persistent)
+                agentsPerCell = new NativeParallelMultiHashMap<int, AvoidanceAgentData>(100, Allocator.Persistent)
             });
 
             agentsQuery = SystemAPI.QueryBuilder()

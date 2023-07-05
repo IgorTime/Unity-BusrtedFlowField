@@ -14,7 +14,7 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
         public int cellSize;
         
         [WriteOnly]
-        public NativeParallelMultiHashMap<int, float3>.ParallelWriter hashMapWriter;
+        public NativeParallelMultiHashMap<int, AvoidanceAgentData>.ParallelWriter hashMapWriter;
 
         // public void Execute(FlowFieldAgentAspect agentAspect)
         // {
@@ -49,14 +49,8 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
         {
             var position = agentAspect.Position;
             var hash = AgentAvoidanceSystem.GetHashForPosition(position.xz, cellSize);
-            hashMapWriter.Add(hash, position);
             
-            // var finalColor = hash % 2 == 0 ? Color.red : Color.blue;
-            // EcsGizmosDrawer.DrawCube(
-            //     agentAspect.Position, 
-            //     Vector3.one * agentAspect.Radius * 0.5f, 
-            //     finalColor
-            // );
+            hashMapWriter.Add(hash, new AvoidanceAgentData(agentAspect.Self, position));
         }
     }
 }
