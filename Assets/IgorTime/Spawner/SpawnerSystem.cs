@@ -1,4 +1,5 @@
 ﻿using IgorTime.BurstedFlowField;
+using IgorTime.BurstedFlowField.ECS;
 using IgorTime.BurstedFlowField.ECS.Data;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -12,6 +13,7 @@ namespace IgorTime
     {
         public void OnCreate(ref SystemState state)
         {
+            state.RequireForUpdate<CostFieldData>();
             state.RequireForUpdate<FlowFieldData>();
         }
 
@@ -24,6 +26,7 @@ namespace IgorTime
 
             var spawned = false;
             var flowField = SystemAPI.GetSingleton<FlowFieldData>();
+            var costField = SystemAPI.GetSingleton<CostFieldData>();
             var random = new Random(1);
             var gridMin = new float2(1, 1);
             var gridMax = new float2(
@@ -35,8 +38,15 @@ namespace IgorTime
                 spawned = true;
                 for (var i = 0; i < spawnerData.ValueRO.agentsCount; i++)
                 {
-                    var entity = state.EntityManager.Instantiate(spawnerData.ValueRO.prefab);
                     var position = random.NextFloat2(gridMin, gridMax).X0Y_Float3();
+                    var cell = flowField.GetCellIndexFromWorldPosition(position);
+                    if (costField.value[cell] == CellCost.Max)
+                    {
+                        i--;
+                        continue;
+                    }
+                    
+                    var entity = state.EntityManager.Instantiate(spawnerData.ValueRO.prefab);
                     state.EntityManager.SetComponentData(entity, LocalTransform.FromPosition(position));
                 }
             }
