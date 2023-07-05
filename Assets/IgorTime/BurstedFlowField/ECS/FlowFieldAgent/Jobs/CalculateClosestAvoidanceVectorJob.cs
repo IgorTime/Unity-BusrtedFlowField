@@ -28,25 +28,29 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             var closestPosition = float3.zero;
             do
             {
-                if(agentAspect.Self == neighborData.AgentEntity)
+                if (agentAspect.Self == neighborData.AgentEntity)
                 {
                     continue;
                 }
-                
-                UpdateClosestDistance(
-                    math.pow(agentAspect.AvoidanceRadius, 2),
-                    ref closestDistance,
-                    ref closestPosition,
-                    myPosition,
-                    neighborData.Position);
+
+                if (UpdateClosestDistance(
+                        math.pow(agentAspect.AvoidanceRadius, 2),
+                        ref closestDistance,
+                        ref closestPosition,
+                        myPosition,
+                        neighborData.Position))
+                {
+                    agentAspect.AvoidanceCounter++;
+                }
             }
             while (agentsPerCell.TryGetNextValue(out neighborData, ref iterator));
 
-            agentAspect.AvoidanceCounter = 1;
-            agentAspect.AvoidanceVector = math.normalize(myPosition - closestPosition);
+            agentAspect.AvoidanceVector = agentAspect.AvoidanceCounter > 0
+                ? math.normalize(myPosition - closestPosition)
+                : float3.zero;
         }
 
-        private static void UpdateClosestDistance(
+        private static bool UpdateClosestDistance(
             in float avoidanceRadiusSqrt,
             ref float closestDistance,
             ref float3 closetsPosition,
@@ -56,21 +60,22 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             var distanceToNeighbor = math.distancesq(neighborPosition, myPosition);
             if (distanceToNeighbor <= float.Epsilon)
             {
-                return;
+                return false;
             }
 
             if (distanceToNeighbor > avoidanceRadiusSqrt)
             {
-                return;
+                return false;
             }
 
             if (distanceToNeighbor > closestDistance)
             {
-                return;
+                return false;
             }
 
             closestDistance = distanceToNeighbor;
             closetsPosition = neighborPosition;
+            return true;
         }
     }
 }

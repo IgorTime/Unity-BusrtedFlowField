@@ -41,7 +41,7 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
                 // var avoidancePower = 1 - math.length(agentAspect.AvoidanceVector) / agentAspect.AvoidanceRadius;
                 // var avoidanceTranslation = math.normalize(agentAspect.AvoidanceVector) * frameSpeed;
                 // desiredVelocity = math.lerp(desiredVelocity, avoidanceTranslation, avoidancePower);
-                
+    
                 desiredVelocity += agentAspect.AvoidanceVector * frameSpeed;
                 desiredVelocity /=2;
             }
@@ -53,15 +53,15 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             }
             
             var newCellIndex = grid.GetCellIndexFromWorldPosition(newPosition);
-            if(!grid.IsValidCell(newCellIndex))
-            {
-                return;
-            }
+            // if(!grid.IsValidCell(newCellIndex))
+            // {
+            //     return;
+            // }
             
-            if (costField[newCellIndex] == CellCost.Max)
-            {
-                return;
-            }
+            // if (costField[newCellIndex] == CellCost.Max)
+            // {
+            //     return;
+            // }
             
             agentAspect.Position += desiredVelocity;
         }
