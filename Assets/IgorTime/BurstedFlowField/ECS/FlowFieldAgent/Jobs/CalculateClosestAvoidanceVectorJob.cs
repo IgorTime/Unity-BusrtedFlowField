@@ -34,11 +34,12 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
                 }
 
                 if (UpdateClosestDistance(
-                        math.pow(agentAspect.AvoidanceRadius, 2),
+                        (agentAspect.AvoidanceRadius + neighborData.AgentRadius).Squared(),
                         ref closestDistance,
                         ref closestPosition,
                         myPosition,
-                        neighborData.Position))
+                        neighborData.Position,
+                        neighborData.AgentRadius))
                 {
                     agentAspect.AvoidanceCounter++;
                 }
@@ -55,14 +56,10 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             ref float closestDistance,
             ref float3 closetsPosition,
             in float3 myPosition,
-            in float3 neighborPosition)
+            in float3 neighborPosition,
+            in float neighborRadius)
         {
             var distanceToNeighbor = math.distancesq(neighborPosition, myPosition);
-            if (distanceToNeighbor <= float.Epsilon)
-            {
-                return false;
-            }
-
             if (distanceToNeighbor > avoidanceRadiusSqrt)
             {
                 return false;

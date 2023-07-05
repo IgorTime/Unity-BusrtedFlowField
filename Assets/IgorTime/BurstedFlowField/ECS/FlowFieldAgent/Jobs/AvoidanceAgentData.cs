@@ -7,11 +7,13 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
     {
         public readonly Entity AgentEntity;
         public readonly float3 Position;
-        
-        public AvoidanceAgentData(in Entity agentEntity, in float3 position)
+        public readonly float AgentRadius;
+
+        public AvoidanceAgentData(in Entity agentEntity, in float3 position, in float agentRadius)
         {
             AgentEntity = agentEntity;
             Position = position;
+            AgentRadius = agentRadius;
         }
     }
 }

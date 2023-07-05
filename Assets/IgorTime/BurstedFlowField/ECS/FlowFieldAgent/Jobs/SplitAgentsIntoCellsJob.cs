@@ -50,7 +50,10 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             var position = agentAspect.Position;
             var hash = AgentAvoidanceSystem.GetHashForPosition(position.xz, cellSize);
             
-            hashMapWriter.Add(hash, new AvoidanceAgentData(agentAspect.Self, position));
+            hashMapWriter.Add(hash, new AvoidanceAgentData(
+                agentAspect.Self,
+                position,
+                agentAspect.Radius));
         }
     }
 }
