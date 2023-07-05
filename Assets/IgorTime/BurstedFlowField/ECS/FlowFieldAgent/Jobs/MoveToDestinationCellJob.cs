@@ -47,6 +47,11 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
             }
 
             var newPosition = position + desiredVelocity;
+            if(!grid.IsValidPosition(newPosition))
+            {
+                return;
+            }
+            
             var newCellIndex = grid.GetCellIndexFromWorldPosition(newPosition);
             if(!grid.IsValidCell(newCellIndex))
             {

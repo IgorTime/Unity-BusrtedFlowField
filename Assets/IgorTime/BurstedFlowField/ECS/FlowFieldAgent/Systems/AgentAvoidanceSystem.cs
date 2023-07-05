@@ -15,23 +15,28 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
     public partial struct AgentAvoidanceSystem : ISystem
     {
         public const float ARRIVAL_DISTANCE = 0.2f;
-        
+
         private EntityQuery agentsQuery;
-        
+
         public JobHandle SplitAgentsHandle { get; private set; }
 
         public void OnCreate(ref SystemState state)
         {
-            state.RequireForUpdate<AvoidanceGrid>();
-            var singleton = state.EntityManager.CreateSingleton<AvoidanceGrid>();
-            state.EntityManager.SetComponentData(singleton, new AvoidanceGrid()
-            {
-                agentsPerCell = new NativeParallelMultiHashMap<int, AvoidanceAgentData>(100, Allocator.Persistent)
-            });
+            CreateAvoidanceGrid(state);
 
             agentsQuery = SystemAPI.QueryBuilder()
                                    .WithAspect<FlowFieldAgentAspect>()
                                    .Build();
+        }
+
+        private static void CreateAvoidanceGrid(SystemState state)
+        {
+            state.RequireForUpdate<AvoidanceGrid>();
+            var singleton = state.EntityManager.CreateSingleton<AvoidanceGrid>();
+            state.EntityManager.SetComponentData(singleton, new AvoidanceGrid
+            {
+                agentsPerCell = new NativeParallelMultiHashMap<int, AvoidanceAgentData>(100, Allocator.Persistent),
+            });
         }
 
         public void OnUpdate(ref SystemState state)
@@ -61,14 +66,14 @@ namespace IgorTime.BurstedFlowField.ECS.FlowFieldAgent.Systems
                 cellSize = AVOIDANCE_GRID_CELL_SIZE,
                 agentsPerCell = avoidanceGrid.agentsPerCell,
             }.ScheduleParallel(SplitAgentsHandle);
-            
+
             state.Dependency = JobHandle.CombineDependencies(state.Dependency, avoidanceHandle);
         }
 
         public static int GetHashForPosition(in float2 position, in int cellSize)
         {
-            var x = (int)math.round(position.x / cellSize);
-            var y = (int)math.round(position.y / cellSize);
+            var x = (int) math.round(position.x / cellSize);
+            var y = (int) math.round(position.y / cellSize);
             return GridUtils.GetCellIndex(new int2(1000, 1000), x, y);
         }
     }

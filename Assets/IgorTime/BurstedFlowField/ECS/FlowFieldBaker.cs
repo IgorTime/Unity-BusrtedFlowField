@@ -10,12 +10,7 @@ namespace IgorTime.BurstedFlowField.ECS
         {
             var entity = GetEntity(TransformUsageFlags.None);
 
-            AddComponent(entity, new FlowFieldData
-            {
-                cellsCount = authoring.CellsCount,
-                gridSize = authoring.GridSize,
-                cellRadius = authoring.CellRadius,
-            });
+            AddComponent(entity, new FlowFieldData(authoring.CellRadius, authoring.GridSize));
 
             AddComponent(entity, new CostFieldData
             {

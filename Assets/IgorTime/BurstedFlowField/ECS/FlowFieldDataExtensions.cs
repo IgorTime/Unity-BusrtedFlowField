@@ -4,7 +4,7 @@ using Unity.Mathematics;
 
 namespace IgorTime.BurstedFlowField.ECS
 {
-    public static class Extensions
+    public static class FlowFieldDataExtensions
     {
         [BurstCompile]
         public static int2 GetCellFromWorldPosition(
@@ -28,7 +28,16 @@ namespace IgorTime.BurstedFlowField.ECS
         public static bool IsValidCell(
             this in FlowFieldData ffData,
             in int cellIndex) =>
-            cellIndex >= 0 && 
+            cellIndex >= 0 &&
             cellIndex < ffData.gridSize.x * ffData.gridSize.y;
+
+        [BurstCompile]
+        public static bool IsValidPosition(
+            this in FlowFieldData ffData,
+            in float3 position) =>
+            position.x >= 0 &&
+            position.x <= ffData.with &&
+            position.z >= 0 &&
+            position.z <= ffData.height;
     }
 }
